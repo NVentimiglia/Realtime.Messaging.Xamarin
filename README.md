@@ -1,6 +1,6 @@
 ## Realtime.Messaging.Xamarin
 
-Demonstrates using the http://realtime.co PCL websocket plugin using Xamarin Forms.
+Demo / Sample of the http://realtime.co PCL websocket messaging framework plugin using Xamarin Forms.
 
 ![Xamarin.Droid Client](xamarin.gif)
 
@@ -10,6 +10,10 @@ Demonstrates using the http://realtime.co PCL websocket plugin using Xamarin For
 - [Websockets.Portable](https://github.com/NVentimiglia/WebSocket.Portable) 
 - [Realtime.Messaging.Portable](https://bitbucket.org/nventimiglia/realtime.messaging.portable) 
 
+### State
+
+- Tested on Xamarin.Android
+- Not tested on other platforms. Might require some minor configuration (loading dependencies).
 
 ### Usage
 
