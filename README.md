@@ -9,6 +9,7 @@ Demo / Sample of the http://realtime.co PCL websocket messaging framework plugin
 - [sockets-for-pcl](https://github.com/rdavisau/sockets-for-pcl) (Nuget) 
 - [Websockets.Portable](https://github.com/NVentimiglia/WebSocket.Portable) 
 - [Realtime.Messaging.Portable](https://bitbucket.org/nventimiglia/realtime.messaging.portable) 
+- [Blog Post About This](http://nicholasventimiglia.com/programming/2015/05/18/Xamarin-PCL-Websockets-Realtime-Messaging/)
 
 ### State
 
