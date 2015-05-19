@@ -2,6 +2,7 @@
 
 Demonstrates using the http://realtime.co PCL websocket plugin using Xamarin Forms.
 
+![Xamarin.Droid Client](xamarin.gif)
 
 ### References
 
