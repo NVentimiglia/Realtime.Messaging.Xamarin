@@ -3,21 +3,21 @@
 	<ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Button">
-                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="FontSize" Value="Medium"/>
             </Style>
             <Style TargetType="Label">
-                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="FontSize" Value="Medium"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-		<StackLayout Orientation="Vertical">
-
-			<StackLayout Orientation="Vertical" IsVisible="{Binding IsDisconnected}">
+			<ScrollView  Orientation = "Vertical" VerticalOptions="StartAndExpand">
+		<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+			<StackLayout Orientation="Vertical" IsVisible="{Binding IsDisconnected}" VerticalOptions="FillAndExpand">
 				<Label FontAttributes="Bold" Text="Identity" />
 				<Entry Text="{Binding ClientMeta}" HorizontalOptions="FillAndExpand" />
 				<StackLayout Orientation="Horizontal">
-					<Label FontAttributes="Bold" Text="Disconnected" TextColor="Red" FontSize="32" HorizontalOptions="StartAndExpand" />
+					<Label FontAttributes="Bold" Text="Disconnected" TextColor="Red" FontSize="Large" HorizontalOptions="StartAndExpand" />
 					<Button Text="Connect" BackgroundColor="Green" Clicked="DoConnect" HorizontalOptions="EndAndExpand" />
 				</StackLayout>
 				<Label FontAttributes="Bold" Text="" />
@@ -35,11 +35,11 @@
 				</ListView>
 			</StackLayout>
 
-			<StackLayout Orientation="Vertical" IsVisible="{Binding IsConnecting}">
+			<StackLayout Orientation="Vertical" IsVisible="{Binding IsConnecting}" VerticalOptions="FillAndExpand">
 				<Label FontAttributes="Bold" Text="Identity" />
 				<Label Text="{Binding ClientMeta}" HorizontalOptions="FillAndExpand" />
 				<StackLayout Orientation="Horizontal">
-					<Label FontAttributes="Bold" Text="Connecting..." TextColor="Yellow" FontSize="32" HorizontalOptions="StartAndExpand" />
+					<Label FontAttributes="Bold" Text="Connecting..." TextColor="Yellow" FontSize="Large" HorizontalOptions="StartAndExpand" />
 					<Button Text="Stop" BackgroundColor="Red" Clicked="DoDisconnect" HorizontalOptions="EndAndExpand" />
 				</StackLayout>
 				<Label FontAttributes="Bold" Text="" />
@@ -57,11 +57,11 @@
 				</ListView>
 			</StackLayout>
 
-			<StackLayout Orientation="Vertical" IsVisible="{Binding IsConnected}">
+			<StackLayout Orientation="Vertical" IsVisible="{Binding IsConnected}" VerticalOptions="FillAndExpand">
 				<Label FontAttributes="Bold" Text="Identity" />
 				<Label Text="{Binding ClientMeta}" HorizontalOptions="FillAndExpand" />
 				<StackLayout Orientation="Horizontal">
-					<Label FontAttributes="Bold" Text="Connected" TextColor="Green" FontSize="32" HorizontalOptions="StartAndExpand" />
+					<Label FontAttributes="Bold" Text="Connected" TextColor="Green" FontSize="Large" HorizontalOptions="StartAndExpand" />
 					<Button Text="Disconnect" BackgroundColor="Red" Clicked="DoDisconnect" HorizontalOptions="EndAndExpand" />
 				</StackLayout>
 
@@ -69,24 +69,24 @@
 				<Label FontAttributes="Bold" Text="Presence" />
 				<StackLayout Orientation="Horizontal">
 					<Switch IsEnabled="false" IsToggled="{Binding HasPresence}" HorizontalOptions="StartAndExpand" />
-					<Button Text="Enable Presence"  Clicked="DoEnablePresence" HorizontalOptions="FillAndExpand" />
-					<Button Text="Disable Presence" Clicked="DoDisablePresence" HorizontalOptions="FillAndExpand" />
-					<Button Text="Get Presence" Clicked="DoPresence" HorizontalOptions="FillAndExpand" />
+					<Button Text="Enable"  Clicked="DoEnablePresence" HorizontalOptions="FillAndExpand" />
+					<Button Text="Disable" Clicked="DoDisablePresence" HorizontalOptions="FillAndExpand" />
+					<Button Text="Get" Clicked="DoPresence" HorizontalOptions="FillAndExpand" />
 				</StackLayout>
 
 				<Label FontAttributes="Bold" Text="" />
 				<Label FontAttributes="Bold" Text="Channels" />
 				<StackLayout Orientation="Horizontal" >
-					<Entry Text="{Binding Channel}" HorizontalOptions="StartAndExpand" WidthRequest="200" />
-					<Button Text="Subscribe" Clicked="DoSubscribe" HorizontalOptions="FillAndExpand" />
-					<Button Text="Unsubscribe" Clicked="DoUnsubscribe" HorizontalOptions="FillAndExpand" />
+					<Entry Text="{Binding Channel}" HorizontalOptions="StartAndExpand" WidthRequest="150" />
+					<Button Text="Sub" Clicked="DoSubscribe" HorizontalOptions="FillAndExpand" />
+					<Button Text="Unsub" Clicked="DoUnsubscribe" HorizontalOptions="FillAndExpand" />
 				</StackLayout>
 				<Label FontAttributes="Italic" Text="{Binding AllChannels}" />
 
 				<Label FontAttributes="Bold" Text="" />
 				<Label FontAttributes="Bold" Text="Message"  />
 				<StackLayout Orientation="Horizontal">
-					<Entry Text="{Binding Message}" WidthRequest="300" HorizontalOptions="StartAndExpand" />
+					<Entry Text="{Binding Message}" WidthRequest="150" HorizontalOptions="StartAndExpand" />
 					<Button Text="Send" Clicked="DoSend" HorizontalOptions="FillAndExpand" />
 					<Button Text="Send Time" Clicked="DoSendTime" HorizontalOptions="FillAndExpand" />
 				</StackLayout>
@@ -107,5 +107,6 @@
 
 			</StackLayout>
 		</StackLayout>
+		</ScrollView >
 	</ContentPage.Content>
 </ContentPage>
