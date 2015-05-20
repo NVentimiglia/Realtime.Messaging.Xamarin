@@ -19,6 +19,7 @@ Demo / Sample of the http://realtime.co PCL websocket messaging framework plugin
 ### Installation
 
 **From Nuget**
+
 Please install on all projects including each platform and the common pcl.
 
 - Microsoft.Bcl
@@ -28,6 +29,7 @@ Please install on all projects including each platform and the common pcl.
 - rda.SocketsForPCL
 
 **From ../libs**
+
 Please include on all projects including each platform and the common pcl.
 
 - RealtimeFramework.Messaging.dll
