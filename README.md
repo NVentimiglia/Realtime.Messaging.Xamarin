@@ -13,8 +13,25 @@ Demo / Sample of the http://realtime.co PCL websocket messaging framework plugin
 
 ### State
 
-- Tested on Xamarin.Android
-- Not tested on other platforms. Might require some minor configuration (loading dependencies).
+- Tested on Xamarin.Android (LG G3, Xamarin Simulator).
+- Tested on iOS (IPad Mini)
+- 
+### Installation
+
+**From Nuget**
+Please install on all projects including each platform and the common pcl.
+
+- Microsoft.Bcl
+- Microsoft.Bcl.Async
+- Microsoft.Bcl.Build
+- Microsoft.Net.Http
+- rda.SocketsForPCL
+- 
+**From ../libs**
+Please include on all projects including each platform and the common pcl.
+
+- RealtimeFramework.Messaging.dll
+- WebSocket.Portable.Core.dll
 
 ### Usage
 
