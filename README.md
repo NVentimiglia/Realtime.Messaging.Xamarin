@@ -26,7 +26,7 @@ Please install on all projects including each platform and the common pcl.
 - Microsoft.Bcl.Build
 - Microsoft.Net.Http
 - rda.SocketsForPCL
-- 
+
 **From ../libs**
 Please include on all projects including each platform and the common pcl.
 
