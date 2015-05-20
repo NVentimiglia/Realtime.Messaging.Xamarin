@@ -90,7 +90,7 @@
       <HintPath>..\packages\rda.SocketsForPCL.1.2.0\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Sockets.Plugin.dll</HintPath>
     </Reference>
     <Reference Include="WebSocket.Portable.Core">
-      <HintPath>..\libs\WebSocket.Portable.Core.dll</HintPath>
+      <HintPath>..\packages\WebSocket.Portable.Core.1.0.5617.37130\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\WebSocket.Portable.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -98,11 +98,11 @@
     <None Include="App.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Views\MainView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
 </Project>

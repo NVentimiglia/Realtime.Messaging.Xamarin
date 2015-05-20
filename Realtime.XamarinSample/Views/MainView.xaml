@@ -22,7 +22,7 @@
 				</StackLayout>
 				<Label FontAttributes="Bold" Text="" />
 				<Label FontAttributes="Bold" Text="Output" />
-				<ListView ItemsSource="{Binding Messages}" SeparatorVisibility="Default">
+				<ListView ItemsSource="{Binding Messages}" SeparatorVisibility="Default" BackgroundColor="Black">
 					<ListView.ItemTemplate>
 						<DataTemplate>
 							<ViewCell>
@@ -44,7 +44,7 @@
 				</StackLayout>
 				<Label FontAttributes="Bold" Text="" />
 				<Label FontAttributes="Bold" Text="Output" />
-				<ListView ItemsSource="{Binding Messages}" SeparatorVisibility="Default">
+				<ListView ItemsSource="{Binding Messages}" SeparatorVisibility="Default" BackgroundColor="Black">
 					<ListView.ItemTemplate>
 						<DataTemplate>
 							<ViewCell>

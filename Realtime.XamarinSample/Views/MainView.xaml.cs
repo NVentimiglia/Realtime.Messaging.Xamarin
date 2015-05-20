@@ -35,7 +35,6 @@ namespace Realtime.XamarinSample
 		public string ClusterUrl = "";
 		public string PrivateKey = "";
 
-
         public MainView()
         {
             client = new OrtcClient();

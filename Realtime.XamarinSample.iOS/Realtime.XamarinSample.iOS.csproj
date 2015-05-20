@@ -148,6 +148,12 @@
     <Reference Include="Sockets.Plugin.Abstractions">
       <HintPath>..\packages\rda.SocketsForPCL.1.2.0\lib\Xamarin.iOS10\Sockets.Plugin.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="WebSocket.Portable.Core">
+      <HintPath>..\packages\WebSocket.Portable.Core.1.0.5617.37130\lib\Xamarin.iOS10\WebSocket.Portable.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="RealtimeFramework.Messaging">
+      <HintPath>..\libs\RealtimeFramework.Messaging.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Forms.Platform.iOS">
       <HintPath>..\packages\Xamarin.Forms.1.4.2.6359\lib\Xamarin.iOS10\Xamarin.Forms.Platform.iOS.dll</HintPath>
     </Reference>
