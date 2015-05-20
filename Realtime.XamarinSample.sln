@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.XamarinSample.Droi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.XamarinSample.iOS", "Realtime.XamarinSample.iOS\Realtime.XamarinSample.iOS.csproj", "{56753DDC-141B-4C51-9330-0ED90B943D44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Realtime.XamarinSample.WinPhone", "Realtime.XamarinSample.WinPhone\Realtime.XamarinSample.WinPhone.csproj", "{C957D258-A218-49DF-BA12-0995127848F7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
