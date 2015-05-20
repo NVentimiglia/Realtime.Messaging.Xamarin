@@ -15,7 +15,7 @@ Demo / Sample of the http://realtime.co PCL websocket messaging framework plugin
 
 - Tested on Xamarin.Android (LG G3, Xamarin Simulator).
 - Tested on iOS (IPad Mini)
-- 
+ 
 ### Installation
 
 **From Nuget**
