@@ -32,7 +32,8 @@ namespace Realtime.XamarinSample
 
 		public string AppKey = "";
 		public string AuthToken = "";
-		public string ClusterUrl = "";
+		public string ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
+		public string ClusterUrlSSL = "https://ortc-developers.realtime.co/server/2.1/";
 		public string PrivateKey = "";
 
         public MainView()
