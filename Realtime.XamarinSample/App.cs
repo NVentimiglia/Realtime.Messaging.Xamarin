@@ -13,5 +13,11 @@ namespace Realtime.XamarinSample
 		{
 			MainPage = new MainView();
 		}
+
+		protected override void OnSleep()
+		{
+			((MainView)MainPage).ForceDisconnect ();
+			
+		}
     }
 }

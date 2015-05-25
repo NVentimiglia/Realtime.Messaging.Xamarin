@@ -38,9 +38,9 @@ namespace Realtime.XamarinSample
         public MainView()
         {
             client = new OrtcClient();
-            client.ClusterUrl = ClusterUrl;
-            client.ConnectionMetadata = "Xamarin-" + new Random().Next();
-			client.HeartbeatTime = 15;
+			client.ClusterUrl = ClusterUrlSSL;
+			client.ConnectionMetadata = "Xamarin-" + new Random().Next(1000);
+			client.HeartbeatTime = 2;
 
             client.OnConnected += client_OnConnected;
             client.OnDisconnected += client_OnDisconnected;
@@ -50,10 +50,9 @@ namespace Realtime.XamarinSample
             client.OnSubscribed += client_OnSubscribed;
             client.OnUnsubscribed += client_OnUnsubscribed;
 
-            Channel = "myChannel";
-			Message = "Hello Realtime";
+			Channel = "myChannel";
+			Message = client.ConnectionMetadata;
          
-
             BindingContext = this;
 			InitializeComponent();
         }
@@ -329,10 +328,14 @@ namespace Realtime.XamarinSample
 			client.Connect(AppKey, Guid.NewGuid().ToString());
         }
 
+		public void ForceDisconnect(){
+			client.Disconnect();
+		}
+
         public void DoDisconnect(object s, EventArgs e)
-        {
+		{
 			Log("Disconnecting...");
-            client.Disconnect();
+			client.Disconnect();
         }
 
         public void DoPresence(object s, EventArgs e)
