@@ -11,7 +11,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-			<ScrollView  Orientation = "Vertical" VerticalOptions="StartAndExpand">
+		<ScrollView  Orientation = "Vertical" VerticalOptions="StartAndExpand">
 		<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
 			<StackLayout Orientation="Vertical" IsVisible="{Binding IsDisconnected}" VerticalOptions="FillAndExpand">
 				<Label FontAttributes="Bold" Text="Identity" />

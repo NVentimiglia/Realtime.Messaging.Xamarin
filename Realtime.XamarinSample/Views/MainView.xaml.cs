@@ -30,11 +30,13 @@ namespace Realtime.XamarinSample
     {
         protected OrtcClient client;
 
-		public string AppKey = "";
 		public string AuthToken = "";
+		public string AppKey = "";
+		public string PrivateKey = "";
 		public string ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
 		public string ClusterUrlSSL = "https://ortc-developers.realtime.co/server/2.1/";
-		public string PrivateKey = "";
+
+		protected System.Diagnostics.Stopwatch Watch = new System.Diagnostics.Stopwatch();
 
         public MainView()
         {
@@ -104,7 +106,8 @@ namespace Realtime.XamarinSample
 
         void client_OnConnected(object sender)
         {
-			Success("Connected");
+			Watch.Stop ();
+			Success("Connected "+ Watch.ElapsedMilliseconds);
 			State = ConnectionState.Connected;
 			IsBusy = false;
         }
@@ -323,6 +326,8 @@ namespace Realtime.XamarinSample
 
         public void DoConnect(object s, EventArgs e)
         {
+			Watch.Reset ();
+			Watch.Start ();
             Log("Connecting...");
 			if (!client.IsConnected)
 				State = ConnectionState.Connecting;
