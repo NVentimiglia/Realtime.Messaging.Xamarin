@@ -30,9 +30,9 @@ namespace Realtime.XamarinSample
     {
         protected OrtcClient client;
 
-		public string AuthToken = "";
-		public string AppKey = "";
-		public string PrivateKey = "";
+		public string AuthToken = "BsnG6J";
+		public string AppKey = "BsnG6J";
+		public string PrivateKey = "eH4nshYKQMYh";
 		public string ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
 		public string ClusterUrlSSL = "https://ortc-developers.realtime.co/server/2.1/";
 
