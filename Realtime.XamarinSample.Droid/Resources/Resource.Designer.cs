@@ -26,6 +26,7 @@ namespace Realtime.XamarinSample.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::ModernHttpClient.Resource.String.library_name = global::Realtime.XamarinSample.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Resource.String.ApplicationName = global::Realtime.XamarinSample.Droid.Resource.String.ApplicationName;
 			global::Xamarin.Forms.Platform.Resource.String.Hello = global::Realtime.XamarinSample.Droid.Resource.String.Hello;
 		}
@@ -67,6 +68,9 @@ namespace Realtime.XamarinSample.Droid
 			
 			// aapt resource value: 0x7f030000
 			public const int Hello = 2130903040;
+			
+			// aapt resource value: 0x7f030002
+			public const int library_name = 2130903042;
 			
 			static String()
 			{
