@@ -1,11 +1,9 @@
 ﻿<Properties StartupItem="Realtime.XamarinSample.Droid\Realtime.XamarinSample.Droid.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.VS9854G88d9ae48" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Realtime.XamarinSample\Views\MainView.xaml.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.04142149004480025618" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Realtime.XamarinSample\App.cs">
     <Files>
       <File FileName="Realtime.XamarinSample\App.cs" Line="1" Column="1" />
-      <File FileName="Realtime.XamarinSample\Views\MainView.xaml" Line="1" Column="1" />
-      <File FileName="Realtime.XamarinSample\Views\MainView.xaml.cs" Line="29" Column="48" />
-      <File FileName="Realtime.XamarinSample\App.txt" Line="2" Column="1" />
+      <File FileName="Realtime.XamarinSample\App.txt" Line="1" Column="1" />
       <File FileName="Realtime.XamarinSample\packages.config" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

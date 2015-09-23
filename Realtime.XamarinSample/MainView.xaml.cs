@@ -1,15 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using RealtimeFramework.Messaging;
 using RealtimeFramework.Messaging.Exceptions;
 using RealtimeFramework.Messaging.Ext;
 using Xamarin.Forms;
 using System.Linq;
+using System.Text;
 
 namespace Realtime.XamarinSample
 {
-    public class MessageLine
+    public class MessageLine 
     {
         public string Content { get; set; }
         public Color Color { get; set; }
@@ -35,6 +35,7 @@ namespace Realtime.XamarinSample
         public string PrivateKey = "";
         public string ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
         public string ClusterUrlSSL = "https://ortc-developers.realtime.co/server/2.1/";
+
 
         protected System.Diagnostics.Stopwatch Watch = new System.Diagnostics.Stopwatch();
 
@@ -72,7 +73,8 @@ namespace Realtime.XamarinSample
         void client_OnSubscribed(object sender, string channel)
         {
 			Success(string.Format("Subscribed to {0}", channel));
-			Channels.Add (channel);
+            Channels.Remove(channel);
+            Channels.Add (channel);
 			AllChannels = string.Join(", ", Channels.ToArray() );
 			IsBusy = false;
         }
@@ -376,7 +378,20 @@ namespace Realtime.XamarinSample
 
         public void DoSend(object s, EventArgs e)
         {
+            //DoSendChunk();
             client.Send(Channel, Message);
+        }
+
+        public void DoSendChunk()
+        {
+            var sb = new StringBuilder();
+            for (int i = 0; i < 3000; i++)
+            {
+                sb.Append("A");
+            }
+
+            client.Send(Channel, sb.ToString());
+
         }
 
         public void DoSendTime(object s, EventArgs e)
