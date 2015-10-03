@@ -32,6 +32,15 @@ I had an issue where OKHttp was referenced twice in my android project (From mod
 
 
 
+#### Dependency Service
+I had issues with the dependency service and the linker. Simply put, the [Perserve] annotation *sometimes* works. If it fails, you will get a "Dependency Service Failed" exception. To fix this, we include a static Link() method within each platform implementation that may be called. This will guarantee that the linker will not strip the solution.
+
+````
+// Inside AppDelegate.cs
+Realtime.Messaging.IOS.WebsocketConnection.Link();
+
+````
+
 ### Sample
 
 Demo / Sample of the http://realtime.co PCL websocket messaging framework plugin using Xamarin Forms.
