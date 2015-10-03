@@ -4,16 +4,15 @@ Realtime messaging SDK for Xamarin. The Messaging Service is a highly-scalable p
 
 ### Implementation
 
-This repository includes both the SDK and a sample application using Xamarin Forms and Androids. This implementation uses OKHTTP.ws and SocketRocket Binding Libraries for websocket support.
+This repository includes both the SDK and a sample application using Xamarin Forms for iOS and Android. This implementation uses OKHTTP.ws and SocketRocket Binding Libraries for websocket support.
 
 https://github.com/mattleibow/square-bindings
 
 
 ### Installation
 
-
 #### NUGET
-Since the Websocket is implemented uniquily for each platform, each project must reference this nuget package.
+Since the Websocket is implemented unique for each platform, each project must reference this nuget package.
 
 #### IOS
 
