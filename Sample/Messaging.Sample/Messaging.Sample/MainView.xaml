@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Messaging.Sample.MainView" Title="Realtime for Xamarin">
+	<ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Button">
+                <Setter Property="FontSize" Value="Medium"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="Medium"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+		<ScrollView  Orientation = "Vertical" VerticalOptions="StartAndExpand">
+		<StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+			<StackLayout Orientation="Vertical" IsVisible="{Binding IsDisconnected}" VerticalOptions="FillAndExpand">
+				<Label FontAttributes="Bold" Text="Identity" />
+				<Entry Text="{Binding ClientMeta}" HorizontalOptions="FillAndExpand" />
+				<StackLayout Orientation="Horizontal">
+					<Label FontAttributes="Bold" Text="Disconnected" TextColor="Red" FontSize="Large" HorizontalOptions="StartAndExpand" />
+          <StackLayout Orientation="Vertical">
+            <Button Text="Connect" TextColor="Green" Clicked="DoConnect" HorizontalOptions="EndAndExpand" />
+            <Button Text="Connect With SSL" TextColor="Green" Clicked="DoConnectSSL" HorizontalOptions="EndAndExpand" />
+          </StackLayout>
+				</StackLayout>
+				<Label FontAttributes="Bold" Text="" />
+				<Label FontAttributes="Bold" Text="Output" />
+				<ListView ItemsSource="{Binding Messages}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<ViewCell.View>
+										<Label Text="{Binding Content}" TextColor="{Binding Color}" FontAttributes="Bold" HorizontalOptions="StartAndExpand" />
+								</ViewCell.View>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</StackLayout>
+
+			<StackLayout Orientation="Vertical" IsVisible="{Binding IsConnecting}" VerticalOptions="FillAndExpand">
+				<Label FontAttributes="Bold" Text="Identity" />
+				<Label Text="{Binding ClientMeta}" HorizontalOptions="FillAndExpand" />
+				<StackLayout Orientation="Horizontal">
+					<Label FontAttributes="Bold" Text="Connecting..." TextColor="#ff4500" FontSize="Large" HorizontalOptions="StartAndExpand" />
+					<Button Text="Stop" TextColor="Red" Clicked="DoDisconnect" HorizontalOptions="EndAndExpand" />
+				</StackLayout>
+				<Label FontAttributes="Bold" Text="" />
+				<Label FontAttributes="Bold" Text="Output" />
+				<ListView ItemsSource="{Binding Messages}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<ViewCell.View>
+										<Label Text="{Binding Content}" TextColor="{Binding Color}" FontAttributes="Bold" HorizontalOptions="StartAndExpand" />
+								</ViewCell.View>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</StackLayout>
+
+			<StackLayout Orientation="Vertical" IsVisible="{Binding IsConnected}" VerticalOptions="FillAndExpand">
+				<Label FontAttributes="Bold" Text="Identity" />
+				<Label Text="{Binding ClientMeta}" HorizontalOptions="FillAndExpand" />
+				<StackLayout Orientation="Horizontal">
+					<Label FontAttributes="Bold" Text="Connected" TextColor="Green" FontSize="Large" HorizontalOptions="StartAndExpand" />
+					<Button Text="Disconnect" TextColor="Red" Clicked="DoDisconnect" HorizontalOptions="EndAndExpand" />
+				</StackLayout>
+
+				<Label FontAttributes="Bold" Text="" />
+				<Label FontAttributes="Bold" Text="Presence" />
+				<StackLayout Orientation="Horizontal">
+					<Switch IsEnabled="false" IsToggled="{Binding HasPresence}" HorizontalOptions="StartAndExpand" />
+					<Button Text="Enable"  Clicked="DoEnablePresence" HorizontalOptions="FillAndExpand" />
+					<Button Text="Disable" Clicked="DoDisablePresence" HorizontalOptions="FillAndExpand" />
+					<Button Text="Get" Clicked="DoPresence" HorizontalOptions="FillAndExpand" />
+				</StackLayout>
+
+				<Label FontAttributes="Bold" Text="" />
+				<Label FontAttributes="Bold" Text="Channels" />
+				<StackLayout Orientation="Horizontal" >
+					<Entry Text="{Binding Channel}" HorizontalOptions="StartAndExpand" WidthRequest="150" />
+					<Button Text="Sub" Clicked="DoSubscribe" HorizontalOptions="FillAndExpand" />
+					<Button Text="Unsub" Clicked="DoUnsubscribe" HorizontalOptions="FillAndExpand" />
+				</StackLayout>
+				<Label FontAttributes="Italic" Text="{Binding AllChannels}" />
+
+				<Label FontAttributes="Bold" Text="" />
+				<Label FontAttributes="Bold" Text="Message"  />
+				<StackLayout Orientation="Horizontal">
+					<Entry Text="{Binding Message}" WidthRequest="150" HorizontalOptions="StartAndExpand" />
+					<Button Text="Send" Clicked="DoSend" HorizontalOptions="FillAndExpand" />
+					<Button Text="Send Time" Clicked="DoSendTime" HorizontalOptions="FillAndExpand" />
+				</StackLayout>
+
+				<Label FontAttributes="Bold" Text="" />
+				<Label FontAttributes="Bold" Text="Output" />
+				<ListView ItemsSource="{Binding Messages}" >
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<ViewCell>
+								<ViewCell.View>
+										<Label Text="{Binding Content}" TextColor="{Binding Color}" FontAttributes="Bold" HorizontalOptions="StartAndExpand" />
+								</ViewCell.View>
+							</ViewCell>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+
+			</StackLayout>
+		</StackLayout>
+		</ScrollView >
+	</ContentPage.Content>
+</ContentPage>
