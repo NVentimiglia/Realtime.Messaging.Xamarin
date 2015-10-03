@@ -50,6 +50,11 @@ namespace RealtimeFramework.Messaging
             _reconnectTimer = new Timer(_reconnectTimer_Elapsed, context.ConnectionTimeout * 1000);
 
             _webSocketConnection = DependencyService.Get<IWebsocketConnection>();
+
+            if (_webSocketConnection == null)
+                throw new OrtcGenericException(
+                    "DependencyService Failed, please include the platform plugins. This may be caused linker stripping.");
+
             _webSocketConnection.OnOpened += _webSocketConnection_OnOpened;
             _webSocketConnection.OnClosed += _webSocketConnection_OnClosed;
             _webSocketConnection.OnError += _webSocketConnection_OnError;
