@@ -30,7 +30,8 @@ One way to workaround: Add an NSAppTransportSecurity key to the Info.plist. Unde
 
 I had an issue where OKHttp was referenced twice in my android project (From modernhttpclient and OKHttp.ws). This causes an error when building as it tried to include the java dependencies twice. The solution was to manually remove the reference (not the package, just the reference) from the Android project.
 
-
+#### WinPhone
+A WinPhone Silverlight sample is included. WinPhone Silverlight currently does not support TLS.
 
 #### Dependency Service
 I had issues with the dependency service and the linker. Simply put, the [Perserve] annotation *sometimes* works. If it fails, you will get a "Dependency Service Failed" exception. To fix this, we include a static Link() method within each platform implementation that may be called. This will guarantee that the linker will not strip the solution.
