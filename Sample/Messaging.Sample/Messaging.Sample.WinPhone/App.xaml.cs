@@ -23,6 +23,8 @@ namespace Messaging.Sample.WinPhone
         /// </summary>
         public App()
         {
+            ThemeManager.ToLightTheme();
+
             // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
 
