@@ -10,7 +10,7 @@ using Square.SocketRocket;
 
 namespace Realtime.Messaging.IOS
 {
-    [RealtimeFramework.Messaging.Preserve]
+    [Preserve]
     public class WebsocketConnection : IWebsocketConnection
     {
         public static void Link()
@@ -21,12 +21,13 @@ namespace Realtime.Messaging.IOS
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
         }
+
         #region Events (4)
 
-        public event Action OnOpened;
-        public event Action OnClosed;
-        public event Action<Exception> OnError;
-        public event Action<string> OnMessageReceived;
+        public event Action OnOpened = delegate { };
+        public event Action OnClosed = delegate { };
+        public event Action<Exception> OnError = delegate { };
+        public event Action<string> OnMessageReceived = delegate { };
 
         #endregion
 

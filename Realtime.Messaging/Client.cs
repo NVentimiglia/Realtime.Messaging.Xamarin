@@ -9,12 +9,6 @@ using Xamarin.Forms;
 
 namespace RealtimeFramework.Messaging
 {
-    public sealed class PreserveAttribute : System.Attribute
-    {
-        public bool AllMembers;
-        public bool Conditional;
-    }
-
     internal class Client
     {
         internal OrtcClient context;

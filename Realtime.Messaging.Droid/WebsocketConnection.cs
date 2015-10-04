@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Android.Runtime;
 using Java.Nio.Charset;
 using Realtime.Messaging.Droid;
 using RealtimeFramework.Messaging.Exceptions;
@@ -12,6 +13,7 @@ using Square.OkIO;
 
 namespace Realtime.Messaging.Droid
 {
+    [Preserve]
     public class WebsocketConnection : IWebsocketConnection
     {
 
@@ -20,12 +22,13 @@ namespace Realtime.Messaging.Droid
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
         }
 
+
         #region Events (4)
 
-        public event Action OnOpened;
-        public event Action OnClosed;
-        public event Action<Exception> OnError;
-        public event Action<string> OnMessageReceived;
+        public event Action OnOpened = delegate { };
+        public event Action OnClosed = delegate { };
+        public event Action<Exception> OnError = delegate { };
+        public event Action<string> OnMessageReceived = delegate { };
 
         #endregion
 
