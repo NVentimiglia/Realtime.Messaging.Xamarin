@@ -27,7 +27,10 @@ One way to workaround: Add an NSAppTransportSecurity key to the Info.plist. Unde
 
 
 `````
-<key>NSAppTransportSecurity</key><dict><key>NSAllowsArbitraryLoads</key> <true/></dict>.
+<key>NSAppTransportSecurity</key>
+<dict>
+   <key>NSAllowsArbitraryLoads</key> <true/>
+</dict>.
 `````
 
 #### Android
