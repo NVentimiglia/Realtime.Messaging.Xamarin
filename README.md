@@ -44,7 +44,7 @@ Realtime.Messaging.IOS.WebsocketConnection.Link();
 
 ### Sample
 
-Demo / Sample of the http://realtime.co PCL websocket messaging framework plugin using Xamarin Forms.
+Sample of the http://realtime.co messaging framework using Xamarin Forms. Source code included under /Sample/
 
 ![Xamarin.Droid Client](xamarin.gif)
 
