@@ -1,22 +1,24 @@
-## Realtime.Messaging.Xamarin
+# Realtime.Messaging.Xamarin
 
 Realtime messaging SDK for Xamarin. The Messaging Service is a highly-scalable pub/sub message broker. Using your favorite programming language you'll be able to broadcast messages to millions of users, reliably and securely. It's all in the cloud so you don't need to manage servers. 
 
-### Platforms
+## Platforms
 
 Supports Android, iOS, and Windows Phone 8 Silverlight.
 
-### Implementation
+## Implementation
 
-This repository includes both the SDK and a sample application using Xamarin Forms for iOS and Android. This implementation uses OKHTTP.ws and SocketRocket Binding Libraries for websocket support.
+This repository includes both the SDK and a sample application using Xamarin Forms iOS, Android, and Windows Phone 8 Silverlight. The SDK includes a platform agnosted Realtime.Messaging project as well as a platform specific 'plugin'. The Android version uses OKHTTP.ws Binding Libraries. iOS uses SocketRocket Binding Libraries. The Windows Phone version uses Websockets Portable and rda.Sockets.
 
 https://github.com/mattleibow/square-bindings
 
+https://github.com/NVentimiglia/WebSocket.Portable
 
-### Installation
+
+## Installation
 
 #### NUGET
-Since the Websocket is implemented unique for each platform, each project must reference this nuget package.
+The SDK is avaliable via Nuget. Please include the NugetPackage to all projects. This includes the common PCL as well as your Xamarin platform project.
 
 #### IOS
 
@@ -47,7 +49,7 @@ Realtime.Messaging.IOS.WebsocketConnection.Link();
 
 ````
 
-### Sample
+## Sample
 
 Sample of the http://realtime.co messaging framework using Xamarin Forms. Source code included under /Sample/
 
@@ -58,6 +60,6 @@ Sample of the http://realtime.co messaging framework using Xamarin Forms. Source
 - Add your application keys to MainView.cs
 - Run the application
 
-### Questions
+#### Questions
 
 Post onto the Github issue system or contact me via my [blog](http://nicholasventimiglia.com)
