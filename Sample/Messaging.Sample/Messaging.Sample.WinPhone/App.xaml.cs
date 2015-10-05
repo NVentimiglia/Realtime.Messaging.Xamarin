@@ -23,6 +23,8 @@ namespace Messaging.Sample.WinPhone
         /// </summary>
         public App()
         {
+            Realtime.Messaging.WinPhone.WebsocketConnection.Link();
+            
             ThemeManager.ToLightTheme();
 
             // Global handler for uncaught exceptions.

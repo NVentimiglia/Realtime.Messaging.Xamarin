@@ -1,145 +1,203 @@
-//using System;
-//using System.Threading.Tasks;
-//using Windows.Foundation;
-//using Windows.Networking.Sockets;
-//using Windows.Storage.Streams;
-//using Realtime.Messaging.WinPhone;
-//using RealtimeFramework.Messaging.Exceptions;
-//using RealtimeFramework.Messaging.Ext;
+using System;
+using System.Threading.Tasks;
+using Realtime.Messaging.WinPhone;
+using RealtimeFramework.Messaging.Exceptions;
+using RealtimeFramework.Messaging.Ext;
+using WebSocket.Portable;
+using WebSocket.Portable.Interfaces;
+using WebSocket.Portable.Internal;
 
-//[assembly: Xamarin.Forms.Dependency(typeof(WebsocketConnection))]
+[assembly: Xamarin.Forms.Dependency(typeof(WebsocketConnection))]
 
-//namespace Realtime.Messaging.WinPhone
-//{
-//    public class WebsocketConnection : IWebsocketConnection
-//    {
-//        private MessageWebSocket _websocket;
-//        private DataWriter messageWriter;
+namespace Realtime.Messaging.WinPhone
+{
+    public class WebsocketConnection : IWebsocketConnection
+    {
+        public static void Link()
+        {
 
-//        public static void Link()
-//        {
+        }
 
-//        }
+        #region Events (4)
 
-//        #region Events (4)
+        public event Action OnOpened = delegate { };
+        public event Action OnClosed = delegate { };
+        public event Action<Exception> OnError = delegate { };
+        public event Action<string> OnMessageReceived = delegate { };
 
-//        public event Action OnOpened = delegate { };
-//        public event Action OnClosed = delegate { };
-//        public event Action<Exception> OnError = delegate { };
-//        public event Action<string> OnMessageReceived = delegate { };
+        #endregion
 
-//        #endregion
+        #region Attributes
 
-//        #region Methods - Public (3)
+        private WebSocketClient _websocket = null;
+        private AsyncLock _lock = new AsyncLock();
 
-//        private Windows.Storage.Streams.DataWriter writer;
+        #endregion
 
-//        public void Connect(string url)
-//        {
+        public void DoOpen()
+        {
+            if (_websocket != null)
+            {
+                _websocket.Closed -= client_Closed;
+                _websocket.Error -= client_Error;
+                _websocket.MessageReceived -= client_MessageReceived;
+                _websocket.Opened -= client_Opened;
+                _websocket.Dispose();
+                _websocket = null;
+            }
 
-//            Uri uri = null;
+            DoClose();
 
-//            var connectionId = Strings.RandomString(8);
-//            var serverId = Strings.RandomNumber(1, 1000);
+            _websocket = new WebSocketClient();
+            _websocket.Closed += client_Closed;
+            _websocket.Error += client_Error;
+            _websocket.MessageReceived += client_MessageReceived;
+            _websocket.Opened += client_Opened;
+        }
 
-//            try
-//            {
-//                uri = new Uri(url);
-//            }
-//            catch (Exception)
-//            {
-//                OnError(new OrtcEmptyFieldException(string.Format("Invalid URL: {0}", url)));
-//                return;
-//            }
+        public async void DoClose()
+        {
+            if (_websocket != null)
+            {
+                await _websocket.CloseAsync();
+            }
+        }
 
-//            var prefix = uri != null && "https".Equals(uri.Scheme) ? "wss" : "ws";
+        void OnLog(LogLevel l, string m)
+        {
+            System.Diagnostics.Debug.WriteLine(m);
+        }
 
-//            var connectionUrl =
-//                new Uri(string.Format("{0}://{1}:{2}/broadcast/{3}/{4}/websocket", prefix, uri.DnsSafeHost, uri.Port,
-//                    serverId, connectionId));
+        public async void Connect(string url)
+        {
+            //System.Diagnostics.Debug.WriteLine("Connection.Connect");
+            Uri uri = null;
+            var connectionId = Strings.RandomString(8);
+            var serverId = Strings.RandomNumber(1, 1000);
 
-//            if (_websocket != null)
-//            {
-//                _websocket.MessageReceived -= _websocket_MessageReceived;
-//                _websocket.Closed -= _websocket_Closed;
-//                _websocket.Dispose();
-//            }
+            try
+            {
+                uri = new Uri(url);
+            }
+            catch (Exception)
+            {
+                throw new OrtcEmptyFieldException(String.Format("Invalid URL: {0}", url));
+            }
 
-//            _websocket = new MessageWebSocket();
-//            _websocket.Control.MessageType = SocketMessageType.Utf8;
-//            _websocket.MessageReceived += _websocket_MessageReceived;
-//            _websocket.Closed += _websocket_Closed;
+            var prefix = uri != null && "https".Equals(uri.Scheme) ? "wss" : "ws";
+            var connectionUrl = String.Format("{0}://{1}:{2}/broadcast/{3}/{4}/websocket", prefix, uri.DnsSafeHost, uri.Port, serverId, connectionId);
 
+            try
+            {
+                DoOpen();
+                await _websocket.OpenAsync(connectionUrl);
+            }
+            catch (Exception ex)
+            {
+                var ev = OnError;
+                if (ev != null)
+                {
+                    ev(new OrtcNotConnectedException("Websocket has encountered an error.", ex));
+                }
+            }
+        }
 
-//            _websocket.ConnectAsync(connectionUrl).Completed = (IAsyncAction source, AsyncStatus status) =>
-//           {
-//               System.Diagnostics.Debug.WriteLine(":: connecting status " + status);
+        public async void Close()
+        {
+            //System.Diagnostics.Debug.WriteLine("Connection.Close");
 
-//               if (status == AsyncStatus.Completed)
-//               {
-//                   messageWriter = new DataWriter(_websocket.OutputStream);
-//                   Task.Factory.StartNew(() => OnOpened());
-//               }
-//               else if (status == AsyncStatus.Error)
-//               {
-//                   Task.Factory.StartNew(() => OnError(new OrtcNotConnectedException("Websocket has encountered an error.")));
-//               }
-//               else if (status == AsyncStatus.Started)
-//               {
-//               }
-//           };
+            DoClose();
+        }
 
-//        }
+        public async void Send(string message)
+        {
+            if (_websocket == null)
+                return;
 
-//        private void _websocket_Closed(IWebSocket sender, WebSocketClosedEventArgs args)
-//        {
-//            Task.Factory.StartNew(() => OnClosed());
-//        }
+            try
+            {
+                message = "\"" + message + "\"";
+                using (await _lock.LockAsync())
+                    await _websocket.SendAsync(message);
+            }
+            catch
+            {
 
-//        private void _websocket_MessageReceived(MessageWebSocket sender, MessageWebSocketMessageReceivedEventArgs args)
-//        {
-//            try
-//            {
-//                using (var reader = args.GetDataReader())
-//                {
-//                    reader.UnicodeEncoding = UnicodeEncoding.Utf8;
-//                    var text = reader.ReadString(reader.UnconsumedBufferLength);
-//                    System.Diagnostics.Debug.WriteLine(":: recived " + text);
-//                    Task.Factory.StartNew(() => OnMessageReceived(text));
-//                }
-//            }
-//            catch
-//            {
-//                OnError(new OrtcGenericException("Failed to read message."));
-//            }
-//        }
+                var ev = OnError;
+                if (ev != null)
+                {
+                    Task.Factory.StartNew(() => ev(new OrtcNotConnectedException("Unable to write to socket.")));
+                }
+            }
+        }
 
-//        public void Close()
-//        {
-//            if (_websocket != null)
-//            {
-//                _websocket.Close(1000, "Normal closure");
-//            }
-//        }
+        private void client_Opened()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                var ev = OnOpened;
+                if (ev != null)
+                {
+                    ev();
+                }
+            });
+        }
 
-//        public async void Send(string message)
-//        {
-//            if (_websocket != null && messageWriter != null)
-//            {
-//                try
-//                {
-//                    message = "\"" + message + "\"";
-//                    messageWriter.WriteString(message);
-//                    await messageWriter.StoreAsync();
-//                    System.Diagnostics.Debug.WriteLine(":: send: " + message);
-//                }
-//                catch
-//                {
-//                    OnError(new OrtcGenericException("Failed to send message."));
-//                }
-//            }
-//        }
+        private void client_MessageReceived(IWebSocketMessage obj)
+        {
+            //System.Diagnostics.Debug.WriteLine("Connection.client_MessageReceived " + obj);
 
-//        #endregion
-//    }
-//}
+            if (!obj.IsComplete)
+                return;
+
+            Task.Factory.StartNew(() =>
+            {
+                var ev = OnMessageReceived;
+                if (ev != null)
+                {
+                    ev(obj.ToString());
+                }
+            });
+        }
+
+        private void client_Error(Exception obj)
+        {
+            //System.Diagnostics.Debug.WriteLine("Connection.client_Error " + obj);
+
+            Task.Factory.StartNew(() =>
+            {
+                var ev = OnError;
+                if (ev != null)
+                {
+                    ev(obj);
+                }
+            });
+        }
+
+        private void client_Closed()
+        {
+            //System.Diagnostics.Debug.WriteLine("Connection.client_Closed" );
+
+            if (_websocket != null)
+            {
+                _websocket.Closed -= client_Closed;
+                _websocket.Error -= client_Error;
+                _websocket.MessageReceived -= client_MessageReceived;
+                _websocket.Opened -= client_Opened;
+
+                _websocket.Dispose();
+                _websocket = null;
+            }
+
+            Task.Factory.StartNew(() =>
+            {
+                var ev = OnClosed;
+                if (ev != null)
+                {
+                    ev();
+                }
+            });
+        }
+
+    }
+}
