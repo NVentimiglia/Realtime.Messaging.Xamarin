@@ -1,6 +1,10 @@
 ## Realtime.Messaging.Xamarin
 
-Realtime messaging SDK for Xamarin. The Messaging Service is a highly-scalable pub/sub message broker. Using your favorite programming language you'll be able to broadcast messages to millions of users, reliably and securely. It's all in the cloud so you don't need to manage servers.
+Realtime messaging SDK for Xamarin. The Messaging Service is a highly-scalable pub/sub message broker. Using your favorite programming language you'll be able to broadcast messages to millions of users, reliably and securely. It's all in the cloud so you don't need to manage servers. 
+
+### Platforms
+
+Supports Android, iOS, and Windows Phone 8 Silverlight.
 
 ### Implementation
 
@@ -31,7 +35,9 @@ One way to workaround: Add an NSAppTransportSecurity key to the Info.plist. Unde
 I had an issue where OKHttp was referenced twice in my android project (From modernhttpclient and OKHttp.ws). This causes an error when building as it tried to include the java dependencies twice. The solution was to manually remove the reference (not the package, just the reference) from the Android project.
 
 #### WinPhone
-A WinPhone Silverlight sample is included. WinPhone Silverlight currently does not support TLS.
+
+WinPhone 8 Silverlight requires rda.Sockets and Websocket Portable
+
 
 #### Dependency Service
 I had issues with the dependency service and the linker. Simply put, the [Perserve] annotation *sometimes* works. If it fails, you will get a "Dependency Service Failed" exception. To fix this, we include a static Link() method within each platform implementation that may be called. This will guarantee that the linker will not strip the solution.
