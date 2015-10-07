@@ -20,6 +20,8 @@ https://github.com/NVentimiglia/WebSocket.Portable
 #### NUGET
 The SDK is avaliable via Nuget. Please include the NugetPackage to all projects. This includes the common PCL as well as your Xamarin platform project.
 
+https://www.nuget.org/packages/Realtime.Xamarin/
+
 #### IOS
 
 For IOS 9, you will need to include a key to your **PList.info**. This may be done in notepad or any text editor.
