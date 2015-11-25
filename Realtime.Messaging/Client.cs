@@ -527,7 +527,7 @@ namespace RealtimeFramework.Messaging
 
         }
 
-        internal void subscribe(string channel, bool subscribeOnReconnected, OrtcClient.OnMessageDelegate onMessage)
+		internal void subscribe(string channel, bool subscribeOnReconnected, OrtcClient.OnMessageDelegate onMessage, bool withNotifications)
         {
             var domainChannelCharacterIndex = channel.IndexOf(':');
             var channelToValidate = channel;
@@ -553,7 +553,8 @@ namespace RealtimeFramework.Messaging
                             IsSubscribing = true,
                             IsSubscribed = false,
                             SubscribeOnReconnected = subscribeOnReconnected,
-                            OnMessage = onMessage
+                            OnMessage = onMessage,
+							isWithNotification = withNotifications
                         });
                 }
 
@@ -568,11 +569,27 @@ namespace RealtimeFramework.Messaging
                         channelSubscription.IsSubscribed = false;
                         channelSubscription.SubscribeOnReconnected = subscribeOnReconnected;
                         channelSubscription.OnMessage = onMessage;
+						channelSubscription.isWithNotification = withNotifications;
                     }
 
-                    string s = String.Format("subscribe;{0};{1};{2};{3}", context._applicationKey, context._authenticationToken, channel, hash);
-
-                    DoSend(s);
+					if (withNotifications) {
+						if(Device.OS == TargetPlatform.Android){
+							if (String.IsNullOrEmpty(context._registrationId)) {
+								context.DelegateExceptionCallback(new OrtcGcmException("The application is not registered with GCM yet!"));
+								return;
+							}
+							else{
+								string s = String.Format("subscribe;{0};{1};{2};{3};{4};GCM", context._applicationKey, context._authenticationToken, channel, hash, context._registrationId);
+								DoSend(s);
+							}
+						}
+						else if(Device.OS == TargetPlatform.iOS){
+							//TO DO
+						}
+					} else{
+						string s = String.Format("subscribe;{0};{1};{2};{3}", context._applicationKey, context._authenticationToken, channel, hash);
+						DoSend(s);
+					}
                 }
                 catch (Exception ex)
                 {
@@ -600,13 +617,24 @@ namespace RealtimeFramework.Messaging
             }
         }
 
-        internal void unsubscribe(string channel)
+		internal void unsubscribe(string channel, bool isWithNotification, TargetPlatform platform)
         {
             try
             {
-                string s = String.Format("unsubscribe;{0};{1}", context._applicationKey, channel);
+				if(isWithNotification){
+					if(platform == TargetPlatform.Android){
+						string s = String.Format("unsubscribe;{0};{1};{2};GCM", context._applicationKey, channel, context._registrationId);
 
-                DoSend(s);
+	                	DoSend(s);
+					}
+					else if(platform == TargetPlatform.iOS){
+						//TO DO
+					}
+				}else{
+					string s = String.Format("unsubscribe;{0};{1}", context._applicationKey, channel);
+
+					DoSend(s);
+				}
             }
             catch (Exception ex)
             {

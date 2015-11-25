@@ -6,6 +6,8 @@ using RealtimeFramework.Messaging.Ext;
 using Xamarin.Forms;
 using System.Linq;
 using System.Text;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Messaging.Sample
 {
@@ -32,20 +34,22 @@ namespace Messaging.Sample
         protected OrtcClient client;
 
         public string AuthToken = "";
-        public string AppKey = "";
+		public string AppKey = "7GqQV1";
         public string PrivateKey = "";
         public string ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
         public string ClusterUrlSSL = "https://ortc-developers.realtime.co/server/ssl/2.1/";
+		public string GoogleProjectNumber = "416418139588";
 
 
         protected System.Diagnostics.Stopwatch Watch = new System.Diagnostics.Stopwatch();
 
         public MainView()
         {
-            client = new OrtcClient();
+			client = new OrtcClient();
             client.ClusterUrl = ClusterUrlSSL;
             client.ConnectionMetadata = "Xamarin-" + new Random().Next(1000);
             client.HeartbeatTime = 2;
+			client.GoogleProjectNumber = GoogleProjectNumber;
 
             client.OnConnected += client_OnConnected;
             client.OnDisconnected += client_OnDisconnected;
@@ -55,6 +59,8 @@ namespace Messaging.Sample
             client.OnSubscribed += client_OnSubscribed;
             client.OnUnsubscribed += client_OnUnsubscribed;
 
+			client.SetOnPushNotification(client_OnPushNotification);
+
             Channel = "myChannel";
             Message = client.ConnectionMetadata;
 
@@ -62,6 +68,7 @@ namespace Messaging.Sample
             InitializeComponent();
         }
 
+     
         #region handlers
         void client_OnUnsubscribed(object sender, string channel)
         {
@@ -164,6 +171,20 @@ namespace Messaging.Sample
             Write(string.Format("{0} : {1}", channel, content));
         }
 
+		void client_OnPushNotification (object sender, string channel, string message, IDictionary<string,object> payload)
+		{
+			if (payload != null) {
+				var payloadStr = "";
+				foreach (var key in payload.Keys)
+				{
+					payloadStr += key + ":" + payload [key] + ",";
+				}
+
+				Write (string.Format ("Push Notification - channel: {0} ; message: {1}; payload: {2}", channel, message, payloadStr));
+			} else {
+				Write (string.Format ("Push Notification - channel: {0} ; message: {1}:", channel, message));
+			}
+		}
         #endregion
 
         #region write methods
@@ -197,7 +218,7 @@ namespace Messaging.Sample
             Messages.Insert(0, new MessageLine
             {
                 Color = color,
-                Content = string.Format("{0} : {1}", DateTime.Now.ToString("hh:mm:ss"), message)
+                Content = string.Format("{0} : {1}", DateTime.Now.ToString("hh:mm:ss.fff"), message)
             });
         }
         #endregion
@@ -385,6 +406,12 @@ namespace Messaging.Sample
             Log("Subscribing...");
             client.Subscribe(Channel, true, OnMessage);
         }
+
+		public void DoSubscribeNotifications(object s, EventArgs e)
+		{
+			Log("Subscribing with notifications...");
+			client.SubscribeWithNotifications(Channel, true, OnMessage);
+		}
 
         public void DoUnsubscribe(object s, EventArgs e)
         {
