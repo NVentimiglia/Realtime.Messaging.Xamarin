@@ -44,7 +44,7 @@ namespace Realtime.Messaging.Droid
 
 		private void StoreRegistrationToken (string token)
 		{
-			Settings.RegistrationId = token;
+			Realtime.Messaging.Helpers.Settings.RegistrationId = token;
 		}
 	}
 }

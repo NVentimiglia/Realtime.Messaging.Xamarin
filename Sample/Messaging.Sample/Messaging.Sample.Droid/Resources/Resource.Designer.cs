@@ -26,7 +26,6 @@ namespace Messaging.Sample.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::ModernHttpClient.Resource.String.library_name = global::Messaging.Sample.Droid.Resource.String.library_name;
 			global::Realtime.Messaging.Droid.Resource.Attribute.circleCrop = global::Messaging.Sample.Droid.Resource.Attribute.circleCrop;
 			global::Realtime.Messaging.Droid.Resource.Attribute.imageAspectRatio = global::Messaging.Sample.Droid.Resource.Attribute.imageAspectRatio;
 			global::Realtime.Messaging.Droid.Resource.Attribute.imageAspectRatioAdjust = global::Messaging.Sample.Droid.Resource.Attribute.imageAspectRatioAdjust;
@@ -112,7 +111,6 @@ namespace Messaging.Sample.Droid
 			global::Realtime.Messaging.Droid.Resource.String.common_open_on_phone = global::Messaging.Sample.Droid.Resource.String.common_open_on_phone;
 			global::Realtime.Messaging.Droid.Resource.String.common_signin_button_text = global::Messaging.Sample.Droid.Resource.String.common_signin_button_text;
 			global::Realtime.Messaging.Droid.Resource.String.common_signin_button_text_long = global::Messaging.Sample.Droid.Resource.String.common_signin_button_text_long;
-			global::Realtime.Messaging.Droid.Resource.String.library_name = global::Messaging.Sample.Droid.Resource.String.library_name;
 			global::Realtime.Messaging.Droid.Resource.Styleable.LoadingImageView = global::Messaging.Sample.Droid.Resource.Styleable.LoadingImageView;
 			global::Realtime.Messaging.Droid.Resource.Styleable.LoadingImageView_circleCrop = global::Messaging.Sample.Droid.Resource.Styleable.LoadingImageView_circleCrop;
 			global::Realtime.Messaging.Droid.Resource.Styleable.LoadingImageView_imageAspectRatio = global::Messaging.Sample.Droid.Resource.Styleable.LoadingImageView_imageAspectRatio;
@@ -450,9 +448,6 @@ namespace Messaging.Sample.Droid
 			
 			// aapt resource value: 0x7f03001d
 			public const int common_signin_button_text_long = 2130903069;
-			
-			// aapt resource value: 0x7f030024
-			public const int library_name = 2130903076;
 			
 			static String()
 			{

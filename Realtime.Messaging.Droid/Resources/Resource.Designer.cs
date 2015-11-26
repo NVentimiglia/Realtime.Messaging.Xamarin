@@ -347,9 +347,6 @@ namespace Realtime.Messaging.Droid
 			// aapt resource value: 0x7f03001d
 			public static int common_signin_button_text_long = 2130903069;
 			
-			// aapt resource value: 0x7f030024
-			public static int library_name = 2130903076;
-			
 			static String()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();

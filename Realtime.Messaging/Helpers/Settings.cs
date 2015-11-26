@@ -1,6 +1,4 @@
 // Helpers/Settings.cs
-using Refractored.Xam.Settings;
-using Refractored.Xam.Settings.Abstractions;
 using System.Collections.Generic;
 
 namespace Realtime.Messaging.Helpers
@@ -25,7 +23,6 @@ namespace Realtime.Messaging.Helpers
     private const string RegistrationIdKey = "registrationId";
     private static readonly string SettingsDefault = string.Empty;
     #endregion
-
 
     public static string RegistrationId
     {
