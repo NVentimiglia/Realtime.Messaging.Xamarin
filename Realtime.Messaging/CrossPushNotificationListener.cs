@@ -21,14 +21,27 @@ namespace Realtime.Messaging
 			var parsedMsg = parseOrtcMultipartMessage (message);
 			pushNotificationData.message = parsedMsg;
 
-			object payload;
-			Parameters.TryGetValue ("P", out payload);
+			if (deviceType == DeviceType.Android) {
+				object payload;
+				Parameters.TryGetValue ("P", out payload);
 
-			if (payload != null) {
-				Dictionary<string, object> payloadDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>> (payload.ToString ());
+				if (payload != null) {
+					Dictionary<string, object> payloadDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>> (payload.ToString ());
+					pushNotificationData.payload = payloadDictionary;
+				}
+			} else if (deviceType == DeviceType.iOS) {
+
+				Dictionary<string, object> payloadDictionary = new Dictionary<string, object> ();
+
+				foreach (var key in Parameters.Keys)
+				{
+					if (!(String.Equals (key, "A") || String.Equals(key,"C") || String.Equals(key,"M") || String.Equals(key,"aps") || String.Equals(key,"alert"))) {
+						payloadDictionary.Add (key, Parameters [key]);
+					}
+				}
+					
 				pushNotificationData.payload = payloadDictionary;
 			}
-
 
 			MessagingCenter.Send (this, "DelegatePushNotification", pushNotificationData);
 		}

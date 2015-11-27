@@ -218,7 +218,7 @@ namespace Messaging.Sample
             Messages.Insert(0, new MessageLine
             {
                 Color = color,
-                Content = string.Format("{0} : {1}", DateTime.Now.ToString("hh:mm:ss.fff"), message)
+                Content = string.Format("{0} : {1}", DateTime.Now.ToString("hh:mm:ss"), message)
             });
         }
         #endregion

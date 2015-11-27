@@ -30,7 +30,7 @@
 						<DataTemplate>
 							<ViewCell>
 								<ViewCell.View>
-										<Label Text="{Binding Content}" TextColor="{Binding Color}" FontAttributes="Bold" HorizontalOptions="StartAndExpand" />
+										<Label Text="{Binding Content}" TextColor="{Binding Color}" FontAttributes="Bold" HorizontalOptions="StartAndExpand"/>
 								</ViewCell.View>
 							</ViewCell>
 						</DataTemplate>

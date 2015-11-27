@@ -73,6 +73,9 @@
     <Compile Include="Helpers\CrossPushNotificationMessage.cs" />
     <Compile Include="Helpers\CrossSettings.cs" />
     <Compile Include="Helpers\ISettings.cs" />
+    <Compile Include="Helpers\IPushNotification.cs" />
+    <Compile Include="Exceptions\OrtcPushNotificationNotInitializedException.cs" />
+    <Compile Include="Exceptions\OrtcApnsException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient, Version=2.4.2.0, Culture=neutral, PublicKeyToken=null">

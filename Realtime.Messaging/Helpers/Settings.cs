@@ -21,6 +21,7 @@ namespace Realtime.Messaging.Helpers
     #region Setting Constants
 
     private const string RegistrationIdKey = "registrationId";
+	private const string TokenKey = "token";
     private static readonly string SettingsDefault = string.Empty;
     #endregion
 
@@ -35,5 +36,17 @@ namespace Realtime.Messaging.Helpers
 		AppSettings.AddOrUpdateValue(RegistrationIdKey, value);
       }
     }
+
+	public static string Token
+	{
+		get
+		{
+			return AppSettings.GetValueOrDefault(TokenKey, SettingsDefault);
+		}
+		set
+		{
+			AppSettings.AddOrUpdateValue(TokenKey, value);
+		}
+	}
   }
 }

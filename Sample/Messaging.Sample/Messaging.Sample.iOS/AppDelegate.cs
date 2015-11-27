@@ -4,6 +4,8 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Realtime.Messaging;
+using Realtime.Messaging.IOS;
 
 namespace Messaging.Sample.iOS
 {
@@ -24,10 +26,61 @@ namespace Messaging.Sample.iOS
         {
             Realtime.Messaging.IOS.WebsocketConnection.Link();
 
+			Realtime.Messaging.CrossPushNotification.Initialize<Realtime.Messaging.CrossPushNotificationListener> ();
+
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
+
+
             return base.FinishedLaunching(app, options);
         }
+
+		const string TAG = "PushNotification-APN";
+		public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
+		{
+
+			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			{
+				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnErrorReceived(error);
+			}
+
+
+		}
+
+		public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+		{
+			System.Diagnostics.Debug.WriteLine ("Offline");
+			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			{
+				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnRegisteredSuccess(deviceToken);
+			}
+
+		}
+
+		public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)
+		{
+			application.RegisterForRemoteNotifications();
+		}
+
+
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+			if (CrossPushNotification.Current is IPushNotificationHandler) 
+			{
+				System.Diagnostics.Debug.WriteLine ("Offline");
+				((IPushNotificationHandler)CrossPushNotification.Current).OnMessageReceived(userInfo);
+			}
+        }
+        
+
+		public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+		{
+			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			{
+				Console.WriteLine ("ReceivedRemoteNotification");
+				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnMessageReceived(userInfo);
+			}
+		}
     }
 }
