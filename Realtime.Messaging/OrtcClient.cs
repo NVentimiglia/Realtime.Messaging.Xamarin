@@ -65,7 +65,6 @@ namespace RealtimeFramework.Messaging
         internal string _authenticationToken;
 		private string _googleProjectNumber;
 		internal string _registrationId;
-		internal string _token;
 	
         internal SynchronizationContext _synchContext; // To synchronize different contexts, preventing cross-thread operation errors (Windows Application and WPF Application))
         
@@ -682,9 +681,7 @@ namespace RealtimeFramework.Messaging
 			else if (Device.OS == TargetPlatform.iOS){
 				if (String.IsNullOrEmpty(Settings.Token)) {
 					CrossPushNotification.Current.Register ();
-				} else {
-					_token = Settings.Token;
-				}
+				} 
 			}
 		}
 			

@@ -584,12 +584,12 @@ namespace RealtimeFramework.Messaging
 							}
 						}
 						else if(Device.OS == TargetPlatform.iOS){
-							if (String.IsNullOrEmpty(context._token)) {
+							if (String.IsNullOrEmpty(Realtime.Messaging.Helpers.Settings.Token)) {
 								context.DelegateExceptionCallback(new OrtcApnsException("The application is not registered with Apns yet!"));
 								return;
 							}
 							else{
-								string s = String.Format("subscribe;{0};{1};{2};{3};{4};Apns", context._applicationKey, context._authenticationToken, channel, hash, context._token);
+								string s = String.Format("subscribe;{0};{1};{2};{3};{4};Apns", context._applicationKey, context._authenticationToken, channel, hash, Realtime.Messaging.Helpers.Settings.Token);
 								DoSend(s);
 							}
 						}
