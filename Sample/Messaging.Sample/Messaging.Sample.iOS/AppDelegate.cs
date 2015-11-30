@@ -67,7 +67,6 @@ namespace Messaging.Sample.iOS
         {
 			if (CrossPushNotification.Current is IPushNotificationHandler) 
 			{
-				System.Diagnostics.Debug.WriteLine ("Offline");
 				((IPushNotificationHandler)CrossPushNotification.Current).OnMessageReceived(userInfo);
 			}
         }
@@ -77,7 +76,6 @@ namespace Messaging.Sample.iOS
 		{
 			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
 			{
-				Console.WriteLine ("ReceivedRemoteNotification");
 				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnMessageReceived(userInfo);
 			}
 		}

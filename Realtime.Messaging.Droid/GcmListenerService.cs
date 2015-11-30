@@ -21,7 +21,17 @@ namespace Realtime.Messaging.Droid
 		
 			if (!PushNotificationAppStarter.AppIsInForeground) {
 				SendNotification (message, data);
-			} 
+				//foreground
+			} else if(CrossPushNotification.PushNotificationListener!= null){
+				var parameters = new Dictionary<string, object>();
+
+				foreach (var key in data.KeySet())
+				{
+					parameters.Add (key, data.Get (key));
+				}
+
+				CrossPushNotification.PushNotificationListener.OnMessage (parameters, DeviceType.Android);
+			}
 		}
 
 		void SendNotification (string message, Bundle pushData)
