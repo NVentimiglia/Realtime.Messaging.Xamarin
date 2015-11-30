@@ -50,6 +50,184 @@ I had issues with the dependency service and the linker. Simply put, the [Perser
 Realtime.Messaging.IOS.WebsocketConnection.Link();
 
 ````
+## Push Notifications
+
+**Note:** To receive Push Notifications when the app is closed you have to run the application on **Release** mode.
+
+To include push notifications on your project you have to subscribe the channel with notifications **SubscribeWithNotifications(Channel, true, OnMessage)** and set the method **setOnPushNotification(client_OnPushNotification)** to your ortc client on **MainView.cs**:
+
+<pre>
+		...
+		
+		protected OrtcClient client;
+
+        ...
+        
+          public void DoSubscribeNotifications(object s, EventArgs e)
+		{
+			Log("Subscribing with notifications...");
+			<b>client.SubscribeWithNotifications(Channel, true, OnMessage);</b>
+		}
+		
+		...
+
+        public MainView()
+        {
+			client = new OrtcClient();
+            client.ClusterUrl = ClusterUrlSSL;
+            client.ConnectionMetadata = "Xamarin-" + new Random().Next(1000);
+            client.HeartbeatTime = 2;
+			//client.GoogleProjectNumber = GoogleProjectNumber;
+
+            client.OnConnected += client_OnConnected;
+            client.OnDisconnected += client_OnDisconnected;
+            client.OnException += client_OnException;
+            client.OnReconnected += client_OnReconnected;
+            client.OnReconnecting += client_OnReconnecting;
+            client.OnSubscribed += client_OnSubscribed;
+            client.OnUnsubscribed += client_OnUnsubscribed;
+            			 
+			 ...
+			 
+			 <b>client.SetOnPushNotification(client_OnPushNotification);</b>
+
+           ...
+        }
+        
+        ...
+        
+       <b> void client_OnPushNotification (object sender, string channel, string message, IDictionary<string,object> payload)
+		{
+			if (payload != null) {
+				var payloadStr = "";
+				foreach (var key in payload.Keys)
+				{
+					payloadStr += key + ":" + payload [key] + ",";
+				}
+
+				Write (string.Format ("Push Notification - channel: {0} ; message: {1}; payload: {2}", channel, message, payloadStr));
+			} else {
+				Write (string.Format ("Push Notification - channel: {0} ; message: {1}:", channel, message));
+			}
+		}</b>
+		
+		
+
+</pre>
+
+**Note:** On Android to use Push Notifications you have set your Google Project Number on your ortc client:
+
+````
+		client.GoogleProjectNumber = "YOUR_GOOGLE_PROJECT_NUMBER";
+````
+
+Finnally you have to do some platform specific configuration:
+
+#### IOS - Push Notification Configuration
+
+On your iOS project add the following code to AppDelegate.cs:
+
+<pre>
+...
+public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        {
+            Realtime.Messaging.IOS.WebsocketConnection.Link();
+
+		    <b>Realtime.Messaging.CrossPushNotification.Initialize<Realtime.Messaging.CrossPushNotificationListener> ();</b>
+
+            global::Xamarin.Forms.Forms.Init();
+            LoadApplication(new App());
+
+
+
+            return base.FinishedLaunching(app, options);
+        }
+		
+		<b>const string TAG = "PushNotification-APN";
+		public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
+		{
+
+			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			{
+				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnErrorReceived(error);
+			}
+
+
+		}
+		
+		public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+		{
+			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			{
+				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnRegisteredSuccess(deviceToken);
+			}
+
+		}
+
+		public override void DidRegisterUserNotificationSettings(UIApplication application, UIUserNotificationSettings notificationSettings)
+		{
+			application.RegisterForRemoteNotifications();
+		}
+
+
+        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        {
+			if (CrossPushNotification.Current is IPushNotificationHandler) 
+			{
+				((IPushNotificationHandler)CrossPushNotification.Current).OnMessageReceived(userInfo);
+			}
+        }
+        
+
+		public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
+		{
+			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			{
+				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnMessageReceived(userInfo);
+			}
+		}
+		</b>
+...
+</pre>
+
+#### Android - Push Notification Configuration
+
+On your droid project add the following code to /Properties/AndroidManifest.xml:
+
+```
+
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" 
+	package="YOUR_PACKAGE" ...>
+	
+	...
+	
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission android:name="YOUR_PACKAGE.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="YOUR_PACKAGE.permission.C2D_MESSAGE" />
+    
+    ...
+    
+	<application ...>
+		 ...
+		 
+        <receiver android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="YOUR_PACKAGE" />
+            </intent-filter>
+        </receiver>
+        ...
+        
+    </application>
+</manifest>
+
+```
 
 ## Sample
 

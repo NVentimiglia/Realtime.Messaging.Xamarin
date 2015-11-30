@@ -1,6 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" package="com.realtime.xamarin" android:versionCode="1" android:versionName="1">
 	<uses-sdk android:minSdkVersion="15" />
-	<application android:icon="@drawable/Realtime" android:label="Realtime Xamarin"></application>
-	<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    
+    <permission android:name="com.realtime.xamarin.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.realtime.xamarin.permission.C2D_MESSAGE" />
+    
+	<application android:icon="@drawable/Realtime" android:label="Realtime Xamarin">
+        <receiver android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.realtime.xamarin" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>

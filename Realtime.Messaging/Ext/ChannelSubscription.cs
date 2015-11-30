@@ -25,11 +25,14 @@ namespace RealtimeFramework.Messaging.Ext {
         internal bool SubscribeOnReconnected { get; set; }
         internal OrtcClient.OnMessageDelegate OnMessage { get; set; }
 
-        internal ChannelSubscription(bool subscribeOnReconnected, OrtcClient.OnMessageDelegate onMessage) {
+		internal bool isWithNotification { get; set; }
+
+		internal ChannelSubscription(bool subscribeOnReconnected, OrtcClient.OnMessageDelegate onMessage, bool withNotification) {
             this.SubscribeOnReconnected = subscribeOnReconnected;
             this.OnMessage = onMessage;
             this.IsSubscribed = false;
             this.IsSubscribing = false;
+			this.isWithNotification = withNotification;
         }
 
         internal ChannelSubscription() {
