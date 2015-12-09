@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ModernHttpClient;
+using Realtime.Messaging;
 
 namespace RealtimeFramework.Messaging.Ext
 {
@@ -150,10 +151,30 @@ namespace RealtimeFramework.Messaging.Ext
             return server;
         }        
 
-        internal async static Task<String> ResolveClusterUrlAsync(String clusterUrl) {
-            String server = "";
+        internal async static Task<String> ResolveClusterUrlAsync(String clusterUrl, IBalancer balancer) {
+			String server = "";
+			try {
+				var result = await balancer.ResolveClusterUrlAsync (clusterUrl);
+				var successStatusCode = result.Item1;
+				var responseBody = result.Item2;
+				if(successStatusCode){
+					var match = Regex.Match(responseBody, BALANCER_SERVER_PATTERN);
+
+					if (match.Success) {
+						server = match.Groups["server"].Value;
+						return server;
+					}
+				}
+			} catch(Exception ex) {
+				Debug.WriteLine(ex.Message);
+				server = "";
+			}
+
+			return server;
+
+            /*String server = "";
             try {
-                HttpClient aClient = new HttpClient(new NativeMessageHandler());
+                HttpClient aClient = new HttpClient();
 				aClient.Timeout = new TimeSpan(0,0,Constants.HTTPCLIENT_TIMEOUT);
                 Uri requestUri = new Uri(clusterUrl);
 
@@ -172,7 +193,7 @@ namespace RealtimeFramework.Messaging.Ext
                 Debug.WriteLine(ex.Message);
                 server = "";
             }
-            return server;
+            return server;*/
         }
 
         #endregion Methods

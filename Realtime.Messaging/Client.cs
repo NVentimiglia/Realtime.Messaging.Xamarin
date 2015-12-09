@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using RealtimeFramework.Messaging.Ext;
 using RealtimeFramework.Messaging.Exceptions;
 using Xamarin.Forms;
+using Realtime.Messaging;
 
 namespace RealtimeFramework.Messaging
 {
@@ -21,6 +22,7 @@ namespace RealtimeFramework.Messaging
         internal RealtimeDictionary<string, ChannelSubscription> _subscribedChannels;
         internal RealtimeDictionary<string, RealtimeDictionary<int, BufferedMessage>> _multiPartMessagesBuffer;
         internal IWebsocketConnection _webSocketConnection;
+		internal IBalancer _balancer;
         internal DateTime? _lastKeepAlive; // Holds the time of the last keep alive received from the server
 
         internal Timer _reconnectTimer; // Timer to reconnect
@@ -42,6 +44,12 @@ namespace RealtimeFramework.Messaging
             _heartbeatTimer = new Timer(_heartbeatTimer_Elapsed, context.HeartbeatTime * 1000);
             _connectionTimer = new Timer(_connectionTimer_Elapsed, Constants.SERVER_HB_COUNT * 1000);
             _reconnectTimer = new Timer(_reconnectTimer_Elapsed, context.ConnectionTimeout * 1000);
+
+			_balancer = DependencyService.Get<IBalancer> ();
+
+			if (_balancer == null)
+				throw new OrtcGenericException(
+					"DependencyService Failed, please include the platform plugins. This may be caused linker stripping.");
 
             _webSocketConnection = DependencyService.Get<IWebsocketConnection>();
 
@@ -209,7 +217,7 @@ namespace RealtimeFramework.Messaging
             {
                 try
                 {
-                    context.Url = await Balancer.ResolveClusterUrlAsync(context.ClusterUrl); //"nope";// GetUrlFromCluster();
+					context.Url = await Balancer.ResolveClusterUrlAsync(context.ClusterUrl, _balancer); //"nope";// GetUrlFromCluster();
 
                     context.IsCluster = true;
 

@@ -34,7 +34,7 @@ namespace Messaging.Sample
         protected OrtcClient client;
 
         public string AuthToken = "";
-		public string AppKey = "";
+		public string AppKey = "7GqQV1";
         public string PrivateKey = "";
         public string ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
         public string ClusterUrlSSL = "https://ortc-developers.realtime.co/server/ssl/2.1/";

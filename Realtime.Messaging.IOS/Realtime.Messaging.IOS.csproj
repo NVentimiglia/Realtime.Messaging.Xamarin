@@ -44,6 +44,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="PushNotificationImplementation.cs" />
     <Compile Include="IPushNotificationHandler.cs" />
+    <Compile Include="Balancer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -72,6 +73,7 @@
     <Reference Include="Xamarin.Forms.Xaml, Version=1.5.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\Xamarin.Forms.1.5.0.6447\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Realtime.Messaging\Realtime.Messaging.csproj">
