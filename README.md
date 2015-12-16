@@ -133,7 +133,7 @@ public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Realtime.Messaging.IOS.WebsocketConnection.Link();
 
-		    <b>Realtime.Messaging.CrossPushNotification.Initialize<Realtime.Messaging.CrossPushNotificationListener> ();</b>
+		    <b>Realtime.Messaging.CrossPushNotification.Initialize&lt;Realtime.Messaging.CrossPushNotificationListener> ();</b>
 
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
