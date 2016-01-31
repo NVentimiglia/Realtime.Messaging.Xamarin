@@ -4,7 +4,6 @@ using Android.Util;
 using Android.Gms.Gcm.Iid;
 using Android.Gms.Gcm;
 using Android.Content;
-using Realtime.Messaging.Helpers;
 
 namespace Realtime.Messaging.Droid
 {
@@ -44,7 +43,7 @@ namespace Realtime.Messaging.Droid
 
 		private void StoreRegistrationToken (string token)
 		{
-			Realtime.Messaging.Helpers.Settings.RegistrationId = token;
+			Helpers.Settings.RegistrationId = token;
 		}
 	}
 }
