@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Runtime;
 using RealtimeFramework.Messaging;
-using Realtime.Messaging.Helpers;
 using Android.Gms.Common;
 using Android.OS;
 
