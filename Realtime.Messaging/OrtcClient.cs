@@ -1,15 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-
-using RealtimeFramework.Messaging.Ext;
-using RealtimeFramework.Messaging.Exceptions;
-using Xamarin.Forms;
+using Realtime.Messaging.Exceptions;
+using Realtime.Messaging.Ext;
 using Realtime.Messaging.Helpers;
-using Realtime.Messaging;
-using System.Collections.Generic;
+using Xamarin.Forms;
 
-namespace RealtimeFramework.Messaging
+namespace Realtime.Messaging
 {       
     /// <summary>
     /// The ORTC (Open Real-Time Connectivity) was developed to add a layer of abstraction to real-time full-duplex web communications platforms by making real-time web applications independent of those platforms.
@@ -55,7 +53,7 @@ namespace RealtimeFramework.Messaging
     public class OrtcClient
     {
         #region Attributes (5)
-        internal RealtimeFramework.Messaging.Client _client;
+        internal Client _client;
         private string _url;
         private string _clusterUrl;
         private bool _isCluster;

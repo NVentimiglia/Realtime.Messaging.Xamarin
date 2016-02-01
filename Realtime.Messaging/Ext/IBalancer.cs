@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Realtime.Messaging
+namespace Realtime.Messaging.Ext
 {
 	public interface IBalancer
 	{

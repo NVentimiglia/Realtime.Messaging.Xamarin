@@ -1,13 +1,13 @@
 using System;
 using System.Collections.ObjectModel;
-using RealtimeFramework.Messaging;
-using RealtimeFramework.Messaging.Exceptions;
-using RealtimeFramework.Messaging.Ext;
 using Xamarin.Forms;
 using System.Linq;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using Realtime.Messaging;
+using Realtime.Messaging.Exceptions;
+using Realtime.Messaging.Ext;
 
 namespace Messaging.Sample
 {

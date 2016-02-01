@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using ModernHttpClient;
 using System.Net.Http;
-using Realtime.Messaging.IOS;
 using Foundation;
+using Realtime.Messaging.Ext;
+using Balancer = Realtime.Messaging.IOS.Balancer;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Balancer))]
 

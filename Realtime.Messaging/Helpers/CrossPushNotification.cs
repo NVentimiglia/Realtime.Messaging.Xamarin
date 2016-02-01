@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
-using RealtimeFramework.Messaging;
+using Realtime.Messaging.Exceptions;
 using Xamarin.Forms;
 
-namespace Realtime.Messaging
+namespace Realtime.Messaging.Helpers
 {
 	public class CrossPushNotification
 	{

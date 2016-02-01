@@ -2,7 +2,8 @@
 using Android.Preferences;
 using Android.App;
 using Android.Content;
-using Realtime.Messaging.Droid;
+using Realtime.Messaging.Helpers;
+using Settings = Realtime.Messaging.Droid.Settings;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Settings))]
 

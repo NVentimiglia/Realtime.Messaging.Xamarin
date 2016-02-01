@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Realtime.Messaging
+namespace Realtime.Messaging.Helpers
 {
 	public interface IPushNotificationListener
 	{

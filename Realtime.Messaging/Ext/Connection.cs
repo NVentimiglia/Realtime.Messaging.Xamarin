@@ -1,6 +1,6 @@
 using System;
 
-namespace RealtimeFramework.Messaging.Ext
+namespace Realtime.Messaging.Ext
 {
     public interface IWebsocketConnection
     {

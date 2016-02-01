@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Newtonsoft.Json;
+using Realtime.Messaging.Helpers;
 
 namespace Realtime.Messaging
 {

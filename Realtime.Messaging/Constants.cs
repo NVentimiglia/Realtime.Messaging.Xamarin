@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RealtimeFramework.Messaging {
+﻿namespace Realtime.Messaging {
     internal class Constants {
         /// <summary>
         /// Message maximum size in bytes

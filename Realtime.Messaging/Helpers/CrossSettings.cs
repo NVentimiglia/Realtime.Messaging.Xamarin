@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 
-namespace Realtime.Messaging
+namespace Realtime.Messaging.Helpers
 {
 	public class CrossSettings
 	{

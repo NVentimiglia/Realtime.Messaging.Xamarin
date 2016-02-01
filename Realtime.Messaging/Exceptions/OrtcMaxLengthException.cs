@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RealtimeFramework.Messaging.Exceptions
+namespace Realtime.Messaging.Exceptions
 {
     /// <summary>
     /// Represents the exception thrown when the connection metadata is to big.

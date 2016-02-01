@@ -1,7 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-
-namespace RealtimeFramework.Messaging.Exceptions {
+﻿namespace Realtime.Messaging.Exceptions {
     /// <summary>
     /// Represents the exception thrown when an ORTC client face problems with ORTC presence operations
     /// </summary>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Realtime.Messaging
+namespace Realtime.Messaging.Exceptions
 {
 	public class OrtcNotSupportedPlatformException : Exception
 	{

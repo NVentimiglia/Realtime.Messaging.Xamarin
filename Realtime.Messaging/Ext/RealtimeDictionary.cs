@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace RealtimeFramework.Messaging.Ext
+namespace Realtime.Messaging.Ext
 {
     /// <summary>
     /// PCL Concurrent Dictionary

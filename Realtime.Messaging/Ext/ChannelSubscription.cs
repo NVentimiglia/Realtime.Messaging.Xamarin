@@ -1,4 +1,4 @@
-namespace RealtimeFramework.Messaging.Ext {
+namespace Realtime.Messaging.Ext {
     internal class ChannelSubscription {
         private bool isSubscribing;
         internal bool IsSubscribing {

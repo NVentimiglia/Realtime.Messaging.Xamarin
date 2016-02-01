@@ -1,6 +1,6 @@
 using System;
 
-namespace RealtimeFramework.Messaging.Ext {
+namespace Realtime.Messaging.Ext {
     class BufferedMessage : IComparable {
         #region Properties (2)
 

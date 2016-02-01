@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using ModernHttpClient;
-using RealtimeFramework.Messaging.Ext;
-using RealtimeFramework.Messaging.Exceptions;
+using Realtime.Messaging.Exceptions;
+using Realtime.Messaging.Ext;
 
-
-namespace RealtimeFramework.Messaging {
+namespace Realtime.Messaging {
     /// <summary>
     /// Class with static methods for authentication and presence management.
     /// </summary>

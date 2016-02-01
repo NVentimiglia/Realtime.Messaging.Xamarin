@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Realtime.Messaging
+﻿namespace Realtime.Messaging.Helpers
 {
 	public enum DeviceType
 	{

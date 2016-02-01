@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
-namespace RealtimeFramework.Messaging.Exceptions
+namespace Realtime.Messaging.Exceptions
 {
     /// <summary>
     /// 

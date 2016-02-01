@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace RealtimeFramework.Messaging.Ext
+namespace Realtime.Messaging.Ext
 {
     /// <summary>
     /// Class used for String methods extensions.

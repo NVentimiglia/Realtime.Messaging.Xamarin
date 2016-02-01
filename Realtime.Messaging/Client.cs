@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using RealtimeFramework.Messaging.Ext;
-using RealtimeFramework.Messaging.Exceptions;
+using Realtime.Messaging.Exceptions;
+using Realtime.Messaging.Ext;
 using Xamarin.Forms;
-using Realtime.Messaging;
 
-namespace RealtimeFramework.Messaging
+namespace Realtime.Messaging
 {
     internal class Client
     {

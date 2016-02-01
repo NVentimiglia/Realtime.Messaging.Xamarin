@@ -1,6 +1,6 @@
 using System;
 
-namespace RealtimeFramework.Messaging.Exceptions
+namespace Realtime.Messaging.Exceptions
 {
     /// <summary>
     /// Represents the exception thrown when a channel is already subscribed by the client.

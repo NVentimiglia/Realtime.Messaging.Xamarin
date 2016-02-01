@@ -5,6 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 using Realtime.Messaging;
+using Realtime.Messaging.Helpers;
 using Realtime.Messaging.IOS;
 
 namespace Messaging.Sample.iOS
@@ -26,7 +27,7 @@ namespace Messaging.Sample.iOS
         {
             Realtime.Messaging.IOS.WebsocketConnection.Link();
 
-			Realtime.Messaging.CrossPushNotification.Initialize<Realtime.Messaging.CrossPushNotificationListener> ();
+			CrossPushNotification.Initialize<Realtime.Messaging.CrossPushNotificationListener> ();
 
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
@@ -40,9 +41,9 @@ namespace Messaging.Sample.iOS
 		public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
 		{
 
-			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			if (CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
 			{
-				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnErrorReceived(error);
+				((Realtime.Messaging.IOS.IPushNotificationHandler)CrossPushNotification.Current).OnErrorReceived(error);
 			}
 
 
@@ -50,9 +51,9 @@ namespace Messaging.Sample.iOS
 
 		public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
 		{
-			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			if (CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
 			{
-				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnRegisteredSuccess(deviceToken);
+				((Realtime.Messaging.IOS.IPushNotificationHandler)CrossPushNotification.Current).OnRegisteredSuccess(deviceToken);
 			}
 
 		}
@@ -74,9 +75,9 @@ namespace Messaging.Sample.iOS
 
 		public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo)
 		{
-			if (Realtime.Messaging.CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
+			if (CrossPushNotification.Current is Realtime.Messaging.IOS.IPushNotificationHandler) 
 			{
-				((Realtime.Messaging.IOS.IPushNotificationHandler)Realtime.Messaging.CrossPushNotification.Current).OnMessageReceived(userInfo);
+				((Realtime.Messaging.IOS.IPushNotificationHandler)CrossPushNotification.Current).OnMessageReceived(userInfo);
 			}
 		}
     }

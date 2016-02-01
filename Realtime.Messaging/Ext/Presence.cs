@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Realtime.Messaging.Exceptions;
 
-using RealtimeFramework.Messaging.Exceptions;
-
-namespace RealtimeFramework.Messaging.Ext
+namespace Realtime.Messaging.Ext
 {
     /// <summary>
     /// OnPresenceDelegate

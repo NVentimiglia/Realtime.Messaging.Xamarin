@@ -5,6 +5,7 @@ using Android.Util;
 using Android.Content;
 using Android.OS;
 using System.Collections.Generic;
+using Realtime.Messaging.Helpers;
 
 
 namespace Realtime.Messaging.Droid

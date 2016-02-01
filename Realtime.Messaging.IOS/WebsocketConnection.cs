@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Foundation;
+using Realtime.Messaging.Exceptions;
+using Realtime.Messaging.Ext;
 using Realtime.Messaging.IOS;
-using RealtimeFramework.Messaging.Exceptions;
-using RealtimeFramework.Messaging.Ext;
 using Square.SocketRocket;
 
 [assembly: Xamarin.Forms.Dependency(typeof(WebsocketConnection))]

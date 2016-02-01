@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace RealtimeFramework.Messaging.Ext
+namespace Realtime.Messaging.Ext
 {
     /// <summary>
     /// Class used for operations with strings.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RealtimeFramework.Messaging.Exceptions
+namespace Realtime.Messaging.Exceptions
 {
 	public class OrtcGcmException : Exception
 	{

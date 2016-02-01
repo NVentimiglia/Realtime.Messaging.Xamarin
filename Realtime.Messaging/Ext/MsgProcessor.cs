@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using RealtimeFramework.Messaging.Exceptions;
+using Realtime.Messaging.Exceptions;
 
-namespace RealtimeFramework.Messaging.Ext {
+namespace Realtime.Messaging.Ext {
     internal class MsgProcessor {
         private Client client;
 

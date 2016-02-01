@@ -11,6 +11,8 @@ using MonoTouch.UIKit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Realtime.Messaging.Exceptions;
+using Realtime.Messaging.Helpers;
 
 [assembly: Xamarin.Forms.Dependency(typeof(PushNotificationImplementation))]
 

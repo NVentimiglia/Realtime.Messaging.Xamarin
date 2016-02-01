@@ -1,6 +1,6 @@
 ﻿using System;
-using Realtime.Messaging.IOS;
-
+using Realtime.Messaging.Helpers;
+using Settings = Realtime.Messaging.IOS.Settings;
 #if __UNIFIED__
 using Foundation;
 #else

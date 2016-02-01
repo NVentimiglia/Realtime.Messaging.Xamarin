@@ -2,8 +2,8 @@ using System;
 using System.Diagnostics;
 using Android.Runtime;
 using Realtime.Messaging.Droid;
-using RealtimeFramework.Messaging.Exceptions;
-using RealtimeFramework.Messaging.Ext;
+using Realtime.Messaging.Exceptions;
+using Realtime.Messaging.Ext;
 using Websockets;
 using Websockets.Droid;
 

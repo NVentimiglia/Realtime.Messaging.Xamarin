@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using Realtime.Messaging.Exceptions;
+using Realtime.Messaging.Ext;
 using Realtime.Messaging.WinPhone;
-using RealtimeFramework.Messaging.Exceptions;
-using RealtimeFramework.Messaging.Ext;
 using WebSocket.Portable;
 using WebSocket.Portable.Interfaces;
 using WebSocket.Portable.Internal;

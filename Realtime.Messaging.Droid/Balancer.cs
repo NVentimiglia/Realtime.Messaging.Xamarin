@@ -1,7 +1,8 @@
 ﻿using System;
-using Realtime.Messaging.Droid;
 using Square.OkHttp;
 using System.Threading.Tasks;
+using Realtime.Messaging.Ext;
+using Balancer = Realtime.Messaging.Droid.Balancer;
 
 [assembly: Xamarin.Forms.Dependency(typeof(Balancer))]
 

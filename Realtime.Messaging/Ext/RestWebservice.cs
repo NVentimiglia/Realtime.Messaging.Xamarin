@@ -1,9 +1,9 @@
 using System;
 using System.Net.Http;
 using ModernHttpClient;
-using RealtimeFramework.Messaging.Exceptions;
+using Realtime.Messaging.Exceptions;
 
-namespace RealtimeFramework.Messaging.Ext
+namespace Realtime.Messaging.Ext
 {
     internal delegate void OnResponseDelegate(OrtcPresenceException ex, String result);
 

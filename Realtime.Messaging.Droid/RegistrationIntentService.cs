@@ -4,6 +4,7 @@ using Android.Util;
 using Android.Gms.Gcm.Iid;
 using Android.Gms.Gcm;
 using Android.Content;
+using Realtime.Messaging.Helpers;
 
 namespace Realtime.Messaging.Droid
 {

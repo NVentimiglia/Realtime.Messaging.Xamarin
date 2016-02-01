@@ -1,14 +1,12 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text.RegularExpressions;
-
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ModernHttpClient;
-using Realtime.Messaging;
 
-namespace RealtimeFramework.Messaging.Ext
+namespace Realtime.Messaging.Ext
 {
     /// <summary>
     /// Callback delegate type raised after resolving a cluster server from balancer
