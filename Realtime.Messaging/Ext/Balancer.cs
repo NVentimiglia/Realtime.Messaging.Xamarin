@@ -4,7 +4,6 @@ using System.IO;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using ModernHttpClient;
 
 namespace Realtime.Messaging.Ext
 {
@@ -70,7 +69,7 @@ namespace Realtime.Messaging.Ext
 
             try
             {
-                using (var client = new HttpClient(new NativeMessageHandler()))
+                using (var client = new HttpClient())
                 {
                     var response = await client.GetStreamAsync(new Uri(parsedUrl));
                     StreamReader streamReader = new StreamReader(response);
@@ -123,17 +122,17 @@ namespace Realtime.Messaging.Ext
             }
         }
 
-        internal static String ResolveClusterUrl(String clusterUrl) {
+        internal static async Task<String> ResolveClusterUrl(String clusterUrl) {
             String server = "";
             try { 
-                using (var client = new HttpClient(new NativeMessageHandler())) {
-                    var response = client.GetAsync(clusterUrl).Result;
+                using (var client = new HttpClient()) {
+                    var response = await client.GetAsync(clusterUrl);
 
                     if (response.IsSuccessStatusCode) {
+
                         var responseContent = response.Content;
                         string responseString = responseContent.ReadAsStringAsync().Result;
-
-                    
+                        
 
                         var match = Regex.Match(responseString, BALANCER_SERVER_PATTERN);
 
@@ -148,51 +147,6 @@ namespace Realtime.Messaging.Ext
             }
             return server;
         }        
-
-        internal async static Task<String> ResolveClusterUrlAsync(String clusterUrl, IBalancer balancer) {
-			String server = "";
-			try {
-				var result = await balancer.ResolveClusterUrlAsync (clusterUrl);
-				var successStatusCode = result.Item1;
-				var responseBody = result.Item2;
-				if(successStatusCode){
-					var match = Regex.Match(responseBody, BALANCER_SERVER_PATTERN);
-
-					if (match.Success) {
-						server = match.Groups["server"].Value;
-						return server;
-					}
-				}
-			} catch(Exception ex) {
-				Debug.WriteLine(ex.Message);
-				server = "";
-			}
-
-			return server;
-
-            /*String server = "";
-            try {
-                HttpClient aClient = new HttpClient();
-				aClient.Timeout = new TimeSpan(0,0,Constants.HTTPCLIENT_TIMEOUT);
-                Uri requestUri = new Uri(clusterUrl);
-
-                var result = await aClient.GetAsync(requestUri, HttpCompletionOption.ResponseContentRead);
-                var responseBody = await result.Content.ReadAsStringAsync();
-
-                if (result.IsSuccessStatusCode) {
-                    var match = Regex.Match(responseBody, BALANCER_SERVER_PATTERN);
-
-                    if (match.Success) {
-                        server = match.Groups["server"].Value;
-                        return server;
-                    }
-                } 
-            } catch(Exception ex) {
-                Debug.WriteLine(ex.Message);
-                server = "";
-            }
-            return server;*/
-        }
 
         #endregion Methods
     }

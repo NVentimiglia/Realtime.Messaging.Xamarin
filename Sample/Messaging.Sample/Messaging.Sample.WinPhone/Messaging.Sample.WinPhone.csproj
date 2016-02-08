@@ -127,6 +127,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
@@ -177,10 +178,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Realtime.Messaging.WinPhone\Realtime.Messaging.WinPhone.csproj">
-      <Project>{edc42489-7ed1-496b-9991-2a832281a3ba}</Project>
-      <Name>Realtime.Messaging.WinPhone</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Realtime.Messaging\Realtime.Messaging.csproj">
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>Realtime.Messaging</Name>
@@ -239,6 +236,18 @@
     </Reference>
     <Reference Include="WebSocket.Portable, Version=1.2.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\WebSocket.Portable.Core.1.2.5\lib\portable-net45+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\WebSocket.Portable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSocket4Net, Version=0.14.1.0, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WebSocket4Net.0.14.1\lib\sl50-wp\WebSocket4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebSockets.PCL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Websockets.Pcl.1.0.6\lib\wp8\WebSockets.PCL.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Websockets.WP8, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Websockets.Pcl.1.0.6\lib\wp8\Websockets.WP8.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">

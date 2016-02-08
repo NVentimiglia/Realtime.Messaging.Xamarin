@@ -1,15 +1,8 @@
 ﻿using System;
 
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-using Realtime.Messaging;
-using Realtime.Messaging.Droid;
-using Realtime.Messaging.Helpers;
 
 namespace Messaging.Sample.Droid
 {
@@ -21,19 +14,11 @@ namespace Messaging.Sample.Droid
         {
             base.OnCreate(bundle);
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new App());
-        }
-    }
-
-    [Application]
-    public class MainApplication : Application
-    {
-        public override void OnCreate()
-        {
-            base.OnCreate();
+            Websockets.Droid.WebsocketConnection.Link();
             
-            new PushNotificationAppStarter(this);
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            LoadApplication(new App());
         }
     }
 }

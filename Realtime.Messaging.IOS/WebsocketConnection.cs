@@ -5,13 +5,14 @@ using Realtime.Messaging.Exceptions;
 using Realtime.Messaging.Ext;
 using Realtime.Messaging.IOS;
 using Square.SocketRocket;
+using WebsocketConnection = Realtime.Messaging.IOS.WebsocketConnection;
 
 [assembly: Xamarin.Forms.Dependency(typeof(WebsocketConnection))]
 
 namespace Realtime.Messaging.IOS
 {
     [Preserve]
-    public class WebsocketConnection : IWebsocketConnection
+    public class WebsocketConnection : Ext.IWebsocketConnection
     {
         public static void Link()
         {

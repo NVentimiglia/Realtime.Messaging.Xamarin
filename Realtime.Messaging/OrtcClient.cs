@@ -4,8 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Realtime.Messaging.Exceptions;
 using Realtime.Messaging.Ext;
-using Realtime.Messaging.Helpers;
-using Xamarin.Forms;
 
 namespace Realtime.Messaging
 {       
@@ -61,15 +59,10 @@ namespace Realtime.Messaging
         private int _heartbeatFail;
         internal string _applicationKey;
         internal string _authenticationToken;
-		private string _googleProjectNumber;
-		internal string _registrationId;
-	
         internal SynchronizationContext _synchContext; // To synchronize different contexts, preventing cross-thread operation errors (Windows Application and WPF Application))
         
-
         #endregion
-
-
+        
         #region Properties (9)
 
         /// <summary>
@@ -183,26 +176,6 @@ namespace Realtime.Messaging
             set { _heartbeatTime = value > Constants.HEARTBEAT_MAX_TIME ? Constants.HEARTBEAT_MAX_TIME : (value < Constants.HEARTBEAT_MIN_TIME ? Constants.HEARTBEAT_MIN_TIME : value); }
         }
 
-		/// <summary>
-		/// Gets or sets the cluster gateway URL.
-		/// </summary>
-		public string GoogleProjectNumber {
-			get {
-				return _googleProjectNumber;
-			}
-			set {
-				if (!String.IsNullOrEmpty (value) && _googleProjectNumber != value) {
-					_googleProjectNumber = value.Trim();
-					var regId = Settings.RegistrationId;
-					if (String.IsNullOrEmpty (regId)) {
-						MessagingCenter.Send (this, "GoogleProjectNumber", _googleProjectNumber);
-					} else {
-						CrossPushNotification.SenderId = _googleProjectNumber;
-					}
-				}
-			}
-		}
-
         #endregion
 
         #region Delegates
@@ -286,12 +259,6 @@ namespace Realtime.Messaging
             _synchContext = SynchronizationContext.Current;
 
             _client = new Client(this);
-
-			if (Device.OS == TargetPlatform.Android) {
-				MessagingCenter.Subscribe<CrossPushNotificationListener, string> (this, "RegistrationId", (page, regId) => {
-					_registrationId = regId;
-				});
-			}
         }
 			
         #region Public Methods
@@ -334,15 +301,7 @@ namespace Realtime.Messaging
 
                 _authenticationToken = authToken;
                 _applicationKey = appKey;
-
-				if (Device.OS == TargetPlatform.Android && !String.IsNullOrEmpty(_googleProjectNumber)) {
-					var regId = Settings.RegistrationId;
-					if (String.IsNullOrEmpty(regId)) {
-						MessagingCenter.Send(this, "GoogleProjectNumber", _googleProjectNumber);
-					} else {
-						_registrationId = regId;
-					}
-				}
+                
                 _client.DoConnect();
             }
         }
@@ -435,62 +394,14 @@ namespace Realtime.Messaging
                     } else if (channelSubscription.IsSubscribed) {
                         DelegateExceptionCallback(new OrtcSubscribedException(String.Format("Already subscribed to the channel {0}", channel)));
                     } else {
-                        _client.subscribe(channel, subscribeOnReconnected, onMessage, false);
+                        _client.subscribe(channel, subscribeOnReconnected, onMessage);
                     }
                 }
             } else {
-                _client.subscribe(channel, subscribeOnReconnected, onMessage, false);          
+                _client.subscribe(channel, subscribeOnReconnected, onMessage);          
             }
         }
-
-		/// <summary>
-		/// Subscribes to a channel with notifications.
-		/// </summary>
-		/// <param name="channel">Channel name.</param>
-		/// <param name="subscribeOnReconnected">Subscribe to the specified channel on reconnect.</param>
-		/// <param name="onMessage"><see cref="OnMessageDelegate"/> callback.</param>
-		/// <example>
-		///   <code>
-		/// ortcClient.SubscribeWithNotifications("channelName", true, OnMessageCallback);
-		/// private void OnMessageCallback(object sender, string channel, string message)
-		/// {
-		/// // Do something
-		/// }
-		///   </code>
-		///   </example>
-		public void SubscribeWithNotifications(string channel, bool subscribeOnReconnected, OnMessageDelegate onMessage) {
-			if (Device.OS == TargetPlatform.iOS || Device.OS == TargetPlatform.Android) {
-				if (!IsConnected) {
-					DelegateExceptionCallback (new OrtcNotConnectedException ("Not connected"));
-				} else if (String.IsNullOrEmpty (channel)) {
-					DelegateExceptionCallback (new OrtcEmptyFieldException ("Channel is null or empty"));
-				} else if (!channel.OrtcIsValidInput ()) {
-					DelegateExceptionCallback (new OrtcInvalidCharactersException ("Channel has invalid characters"));
-				} else if (channel.Length > Constants.MAX_CHANNEL_SIZE) {
-					DelegateExceptionCallback (new OrtcMaxLengthException (String.Format ("Channel size exceeds the limit of {0} characters", Constants.MAX_CHANNEL_SIZE)));
-				} else if (_client._subscribedChannels.ContainsKey (channel)) {
-					ChannelSubscription channelSubscription = null;
-					_client._subscribedChannels.TryGetValue (channel, out channelSubscription);
-
-					if (channelSubscription != null) {
-						if (channelSubscription.IsSubscribing) {
-							DelegateExceptionCallback (new OrtcSubscribedException (String.Format ("Already subscribing to the channel {0}", channel)));
-						} else if (channelSubscription.IsSubscribed) {
-							DelegateExceptionCallback (new OrtcSubscribedException (String.Format ("Already subscribed to the channel {0}", channel)));
-						} else {
-							_client.subscribe (channel, subscribeOnReconnected, onMessage, true);
-						}
-					}
-				} else if (Device.OS == TargetPlatform.Android && String.IsNullOrEmpty (_googleProjectNumber)) {
-					DelegateExceptionCallback (new OrtcGcmException ("You have to provide a your Google Project ID to use the GCM notifications"));
-				} else {
-					_client.subscribe (channel, subscribeOnReconnected, onMessage, true);          
-				}
-			} else {
-				DelegateExceptionCallback (new OrtcNotSupportedPlatformException ("Subscribe with notifications is only available on platforms Android/iOS"));
-			}
-		}
-
+	
         /// <summary>
         /// Unsubscribes from a channel.
         /// </summary>
@@ -517,7 +428,7 @@ namespace Realtime.Messaging
                 if (channelSubscription != null && !channelSubscription.IsSubscribed) {
                    DelegateExceptionCallback(new OrtcNotSubscribedException(String.Format("Not subscribed to the channel {0}", channel)));
                 } else {
-					_client.unsubscribe(channel, channelSubscription.isWithNotification,Device.OS); 
+					_client.unsubscribe(channel); 
                 }
             } else {
                 DelegateExceptionCallback(new OrtcNotSubscribedException(String.Format("Not subscribed to the channel {0}", channel)));
@@ -661,28 +572,7 @@ namespace Realtime.Messaging
 
             Ext.Presence.DisablePresence(url, isCluster, this._applicationKey, privateKey, channel, callback);
         }
-
-		/// <summary>
-		/// Enables push Notifications
-		/// </summary>
-		/// <param name="callback">Callback when push notification is received.     
-		public void SetOnPushNotification(OrtcClient.OnPushNotificationDelegate callback) {
-
-			MessagingCenter.Subscribe<CrossPushNotificationListener, CrossPushNotificationMessage> (this, "DelegatePushNotification", (page, pushNotificationData) => {
-				DelegatePushNotificationCallback(pushNotificationData.channel, pushNotificationData.message, pushNotificationData.payload);
-			});
-
-			OnPushNotification += callback;
-			if (Device.OS == TargetPlatform.Android) {
-				MessagingCenter.Send (this, "SetOnPushNotification");
-			}
-			else if (Device.OS == TargetPlatform.iOS){
-				if (String.IsNullOrEmpty(Settings.Token)) {
-					CrossPushNotification.Current.Register ();
-				} 
-			}
-		}
-			
+        
         #endregion
 
 

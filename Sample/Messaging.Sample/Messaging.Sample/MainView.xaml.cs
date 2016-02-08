@@ -3,8 +3,6 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Linq;
 using System.Text;
-using System.Collections;
-using System.Collections.Generic;
 using Realtime.Messaging;
 using Realtime.Messaging.Exceptions;
 using Realtime.Messaging.Ext;
@@ -406,13 +404,7 @@ namespace Messaging.Sample
             Log("Subscribing...");
             client.Subscribe(Channel, true, OnMessage);
         }
-
-		public void DoSubscribeNotifications(object s, EventArgs e)
-		{
-			Log("Subscribing with notifications...");
-			client.SubscribeWithNotifications(Channel, true, OnMessage);
-		}
-
+        
         public void DoUnsubscribe(object s, EventArgs e)
         {
             Log("Unsubscribing...");

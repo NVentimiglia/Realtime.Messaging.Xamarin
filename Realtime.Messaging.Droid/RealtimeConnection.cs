@@ -18,7 +18,7 @@ namespace Realtime.Messaging.Droid
         static RealtimeConnection()
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
-           WebsocketConnection.Link();
+           Websockets.Droid.WebsocketConnection.Link();
         }
 
         #region Events (4)
@@ -38,7 +38,7 @@ namespace Realtime.Messaging.Droid
 
         public RealtimeConnection()
         {
-            _socket = new WebsocketConnection();
+            _socket = new Websockets.Droid.WebsocketConnection();
             _socket.OnClosed += _socket_OnClosed;
             _socket.OnOpened += _socket_OnOpened;
             _socket.OnError += _socket_OnError;

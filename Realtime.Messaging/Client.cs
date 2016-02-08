@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Realtime.Messaging.Exceptions;
 using Realtime.Messaging.Ext;
-using Xamarin.Forms;
+using Websockets;
 
 namespace Realtime.Messaging
 {
@@ -20,8 +20,7 @@ namespace Realtime.Messaging
         internal List<KeyValuePair<string, string>> _permissions;
         internal RealtimeDictionary<string, ChannelSubscription> _subscribedChannels;
         internal RealtimeDictionary<string, RealtimeDictionary<int, BufferedMessage>> _multiPartMessagesBuffer;
-        internal IWebsocketConnection _webSocketConnection;
-		internal IBalancer _balancer;
+        internal IWebSocketConnection _webSocketConnection;
         internal DateTime? _lastKeepAlive; // Holds the time of the last keep alive received from the server
 
         internal Timer _reconnectTimer; // Timer to reconnect
@@ -44,22 +43,15 @@ namespace Realtime.Messaging
             _connectionTimer = new Timer(_connectionTimer_Elapsed, Constants.SERVER_HB_COUNT * 1000);
             _reconnectTimer = new Timer(_reconnectTimer_Elapsed, context.ConnectionTimeout * 1000);
 
-			_balancer = DependencyService.Get<IBalancer> ();
-
-			if (_balancer == null)
-				throw new OrtcGenericException(
-					"DependencyService Failed, please include the platform plugins. This may be caused linker stripping.");
-
-            _webSocketConnection = DependencyService.Get<IWebsocketConnection>();
+            _webSocketConnection = WebSocketFactory.Create();
 
             if (_webSocketConnection == null)
-                throw new OrtcGenericException(
-                    "DependencyService Failed, please include the platform plugins. This may be caused linker stripping.");
+                throw new OrtcGenericException("Platform Websocket not found. Please call WebSockets.Pcl.WebSocketConnection.Link().");
 
             _webSocketConnection.OnOpened += _webSocketConnection_OnOpened;
             _webSocketConnection.OnClosed += _webSocketConnection_OnClosed;
             _webSocketConnection.OnError += _webSocketConnection_OnError;
-            _webSocketConnection.OnMessageReceived += _webSocketConnection_OnMessageReceived;
+            _webSocketConnection.OnMessage += _webSocketConnection_OnMessageReceived;
 
             _msgProcessor = new MsgProcessor(this);
         }
@@ -89,11 +81,11 @@ namespace Realtime.Messaging
             }
         }
 
-        private void _webSocketConnection_OnError(Exception error)
+        private void _webSocketConnection_OnError(string error)
         {
             if (_isConnecting)
             {
-                context.DelegateExceptionCallback(new OrtcGenericException(error.Message));
+                context.DelegateExceptionCallback(new OrtcGenericException(error));
                 DoReconnect();
             }
             else
@@ -204,7 +196,7 @@ namespace Realtime.Messaging
             }
 
         }
-        
+
         internal async void DoConnect()
         {
             _isConnecting = true;
@@ -216,7 +208,7 @@ namespace Realtime.Messaging
             {
                 try
                 {
-					context.Url = await Balancer.ResolveClusterUrlAsync(context.ClusterUrl, _balancer); //"nope";// GetUrlFromCluster();
+                    context.Url = await Balancer.ResolveClusterUrl(context.ClusterUrl); //"nope";// GetUrlFromCluster();
 
                     context.IsCluster = true;
 
@@ -245,7 +237,24 @@ namespace Realtime.Messaging
             {
                 try
                 {
-                    _webSocketConnection.Connect(context.Url);
+                    //System.Diagnostics.Debug.WriteLine("Connection.Connect");
+                    Uri uri = null;
+                    var connectionId = Strings.RandomString(8);
+                    var serverId = Strings.RandomNumber(1, 1000);
+
+                    try
+                    {
+                        uri = new Uri(context.Url);
+                    }
+                    catch (Exception)
+                    {
+                        throw new OrtcEmptyFieldException(String.Format("Invalid URL: {0}", context.Url));
+                    }
+
+                    var prefix = uri != null && "https".Equals(uri.Scheme) ? "wss" : "ws";
+                    var connectionUrl = String.Format("{0}://{1}:{2}/broadcast/{3}/{4}/websocket", prefix, uri.DnsSafeHost, uri.Port, serverId, connectionId);
+
+                    _webSocketConnection.Open(connectionUrl);
 
                     // Just in case the server does not respond
                     //
@@ -289,7 +298,7 @@ namespace Realtime.Messaging
         {
             _isConnecting = false;
             _alreadyConnectedFirstTime = false;
-            
+
             if (_reconnectTimer.IsRunning)
                 context.DelegateDisconnectedCallback();
 
@@ -412,6 +421,7 @@ namespace Realtime.Messaging
         {
             try
             {
+                message = "\"" + message + "\"";
                 _webSocketConnection.Send(message);
             }
             catch (Exception ex)
@@ -439,7 +449,7 @@ namespace Realtime.Messaging
                     _waitingServerResponse = false;
                     context.DelegateExceptionCallback(new OrtcNotConnectedException("Unable to connect"));
                 }
-                
+
                 DoConnect();
             }
             else
@@ -534,7 +544,7 @@ namespace Realtime.Messaging
 
         }
 
-		internal void subscribe(string channel, bool subscribeOnReconnected, OrtcClient.OnMessageDelegate onMessage, bool withNotifications)
+        internal void subscribe(string channel, bool subscribeOnReconnected, OrtcClient.OnMessageDelegate onMessage)
         {
             var domainChannelCharacterIndex = channel.IndexOf(':');
             var channelToValidate = channel;
@@ -560,8 +570,7 @@ namespace Realtime.Messaging
                             IsSubscribing = true,
                             IsSubscribed = false,
                             SubscribeOnReconnected = subscribeOnReconnected,
-                            OnMessage = onMessage,
-							isWithNotification = withNotifications
+                            OnMessage = onMessage
                         });
                 }
 
@@ -576,34 +585,11 @@ namespace Realtime.Messaging
                         channelSubscription.IsSubscribed = false;
                         channelSubscription.SubscribeOnReconnected = subscribeOnReconnected;
                         channelSubscription.OnMessage = onMessage;
-						channelSubscription.isWithNotification = withNotifications;
                     }
+                    
+                    string s = String.Format("subscribe;{0};{1};{2};{3}", context._applicationKey, context._authenticationToken, channel, hash);
+                    DoSend(s);
 
-					if (withNotifications) {
-						if(Device.OS == TargetPlatform.Android){
-							if (String.IsNullOrEmpty(context._registrationId)) {
-								context.DelegateExceptionCallback(new OrtcGcmException("The application is not registered with GCM yet!"));
-								return;
-							}
-							else{
-								string s = String.Format("subscribe;{0};{1};{2};{3};{4};GCM", context._applicationKey, context._authenticationToken, channel, hash, context._registrationId);
-								DoSend(s);
-							}
-						}
-						else if(Device.OS == TargetPlatform.iOS){
-							if (String.IsNullOrEmpty(Realtime.Messaging.Helpers.Settings.Token)) {
-								context.DelegateExceptionCallback(new OrtcApnsException("The application is not registered with Apns yet!"));
-								return;
-							}
-							else{
-								string s = String.Format("subscribe;{0};{1};{2};{3};{4};Apns", context._applicationKey, context._authenticationToken, channel, hash, Realtime.Messaging.Helpers.Settings.Token);
-								DoSend(s);
-							}
-						}
-					} else{
-						string s = String.Format("subscribe;{0};{1};{2};{3}", context._applicationKey, context._authenticationToken, channel, hash);
-						DoSend(s);
-					}
                 }
                 catch (Exception ex)
                 {
@@ -631,24 +617,13 @@ namespace Realtime.Messaging
             }
         }
 
-		internal void unsubscribe(string channel, bool isWithNotification, TargetPlatform platform)
+        internal void unsubscribe(string channel)
         {
             try
             {
-				if(isWithNotification){
-					if(platform == TargetPlatform.Android){
-						string s = String.Format("unsubscribe;{0};{1};{2};GCM", context._applicationKey, channel, context._registrationId);
+                string s = String.Format("unsubscribe;{0};{1}", context._applicationKey, channel);
 
-	                	DoSend(s);
-					}
-					else if(platform == TargetPlatform.iOS){
-						//TO DO
-					}
-				}else{
-					string s = String.Format("unsubscribe;{0};{1}", context._applicationKey, channel);
-
-					DoSend(s);
-				}
+                DoSend(s);
             }
             catch (Exception ex)
             {

@@ -82,7 +82,6 @@
 				<StackLayout Orientation="Horizontal" >
 					<Entry Text="{Binding Channel}" HorizontalOptions="StartAndExpand" WidthRequest="150" />
 					<Button Text="Sub" Clicked="DoSubscribe" HorizontalOptions="FillAndExpand" />
-					<Button Text="Sub Notifications" Clicked="DoSubscribeNotifications" HorizontalOptions="FillAndExpand" />
 					<Button Text="Unsub" Clicked="DoUnsubscribe" HorizontalOptions="FillAndExpand" />
 				</StackLayout>
 				<Label FontAttributes="Italic" Text="{Binding AllChannels}" />

@@ -23,7 +23,7 @@ namespace Messaging.Sample.WinPhone
         /// </summary>
         public App()
         {
-            Realtime.Messaging.WinPhone.WebsocketConnection.Link();
+            Websockets.WP8.WebsocketConnection.Link();
             
             ThemeManager.ToLightTheme();
 

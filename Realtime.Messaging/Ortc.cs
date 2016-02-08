@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using ModernHttpClient;
+using System.Threading.Tasks;
 using Realtime.Messaging.Exceptions;
 using Realtime.Messaging.Ext;
 
@@ -66,7 +66,7 @@ namespace Realtime.Messaging {
         ///    bool authSaved = Ibt.Ortc.Api.Ortc.SaveAuthentication(url, isCluster, authenticationToken, authenticationTokenIsPrivate, applicationKey, timeToLive, privateKey, permissions)) 
         /// </code>
         /// </example>
-        public static bool SaveAuthentication(string url, bool isCluster, string authenticationToken, bool authenticationTokenIsPrivate,
+        public static async Task<bool> SaveAuthentication(string url, bool isCluster, string authenticationToken, bool authenticationTokenIsPrivate,
                                               string applicationKey, int timeToLive, string privateKey, Dictionary<string, ChannelPermissions> permissions) {
             var result = false;
 
@@ -80,7 +80,7 @@ namespace Realtime.Messaging {
                     multiPermissions.Add(permission.Key, permissionList);
                 }
 
-                result = Ortc.SaveAuthentication(url, isCluster, authenticationToken, authenticationTokenIsPrivate, applicationKey, timeToLive, privateKey, multiPermissions);
+                result = await Ortc.SaveAuthentication(url, isCluster, authenticationToken, authenticationTokenIsPrivate, applicationKey, timeToLive, privateKey, multiPermissions);
             }
 
             return result;
@@ -125,7 +125,7 @@ namespace Realtime.Messaging {
         ///    bool authSaved = Ibt.Ortc.Api.Ortc.SaveAuthentication(url, isCluster, authenticationToken, authenticationTokenIsPrivate, applicationKey, timeToLive, privateKey, channelPermissions)) 
         /// </code>
         /// </example>
-        public static bool SaveAuthentication(string url, bool isCluster, string authenticationToken, bool authenticationTokenIsPrivate,
+        public static async Task<bool> SaveAuthentication(string url, bool isCluster, string authenticationToken, bool authenticationTokenIsPrivate,
                                               string applicationKey, int timeToLive, string privateKey, Dictionary<string, List<ChannelPermissions>> permissions) {
 
             if (String.IsNullOrEmpty(url)) {
@@ -142,7 +142,7 @@ namespace Realtime.Messaging {
             string connectionUrl = url;
 
             if (isCluster) {
-                connectionUrl = Balancer.ResolveClusterUrl(url);    
+                connectionUrl = await Balancer.ResolveClusterUrl(url);    
             }
 
             if (String.IsNullOrEmpty(connectionUrl)) {
@@ -165,10 +165,8 @@ namespace Realtime.Messaging {
                 }
             }
 
-
-
             HttpContent content = new StringContent(postParameters);
-            using (var client = new HttpClient(new NativeMessageHandler())) {
+            using (var client = new HttpClient()) {
                 var response = client.PostAsync(new Uri(connectionUrl), content).Result;
 
                 if (response.IsSuccessStatusCode) {

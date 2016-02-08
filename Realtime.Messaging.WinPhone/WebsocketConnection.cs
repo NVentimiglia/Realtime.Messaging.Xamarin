@@ -6,12 +6,13 @@ using Realtime.Messaging.WinPhone;
 using WebSocket.Portable;
 using WebSocket.Portable.Interfaces;
 using WebSocket.Portable.Internal;
+using WebsocketConnection = Realtime.Messaging.WinPhone.WebsocketConnection;
 
 [assembly: Xamarin.Forms.Dependency(typeof(WebsocketConnection))]
 
 namespace Realtime.Messaging.WinPhone
 {
-    public class WebsocketConnection : IWebsocketConnection
+    public class WebsocketConnection : Ext.IWebsocketConnection
     {
         public static void Link()
         {
