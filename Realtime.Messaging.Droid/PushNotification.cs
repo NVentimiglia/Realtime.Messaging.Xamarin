@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
 using Android.Gms.Common;
 using Android.OS;
 using Realtime.Messaging.Helpers;
@@ -10,55 +8,45 @@ using Realtime.Messaging.Helpers;
 namespace Realtime.Messaging.Droid
 {
 	
-	[Application]
-	public class PushNotificationAppStarter : Application
-	{
-		public static Context AppContext;
+	public class PushNotificationAppStarter
+    {
+        public static Application Current;
+        public static Context AppContext;
 		public static bool AppIsInForeground;
 		public static bool OrtcClientInitialized;
 
-		public PushNotificationAppStarter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
+        public PushNotificationAppStarter(Application current)
+	    {
+	        Current = current;
+            AppContext = Application.Context;
+            Current.RegisterActivityLifecycleCallbacks(new LifecycleCallbacks());
+            
+            Xamarin.Forms.MessagingCenter.Subscribe<OrtcClient, string>(AppContext, "GoogleProjectNumber", (page, senderId) => {
+                CrossPushNotification.SenderId = senderId;
+                if (IsPlayServicesAvailable())
+                {
+                    var intent = new Intent(Current, typeof(RegistrationIntentService));
+                    Current.StartService(intent);
+                }
+                else {
+                    CrossPushNotification.PushNotificationListener.OnError("Google Play Services is not available", DeviceType.Android);
+                }
+            });
+
+            Xamarin.Forms.MessagingCenter.Subscribe<OrtcClient>(AppContext, "SetOnPushNotification", (page) => {
+                OrtcClientInitialized = true;
+                Xamarin.Forms.MessagingCenter.Send(this, "CheckPushNotification");
+            });
+        }
+
+        public bool IsPlayServicesAvailable ()
 		{
-
-		}
-
-		public override void OnCreate()
-		{
-			RegisterActivityLifecycleCallbacks(new LifecycleCallbacks());
-			base.OnCreate();
-
-			AppContext = this.ApplicationContext;
-
-			Xamarin.Forms.MessagingCenter.Subscribe<OrtcClient, string>(AppContext, "GoogleProjectNumber", (page, senderId) => {
-				CrossPushNotification.SenderId = senderId;
-				if (IsPlayServicesAvailable()){
-					var intent = new Intent (this, typeof (RegistrationIntentService));
-					StartService (intent);
-				}
-				else{
-					CrossPushNotification.PushNotificationListener.OnError("Google Play Services is not available", DeviceType.Android);
-				}
-			});
-
-			Xamarin.Forms.MessagingCenter.Subscribe<OrtcClient>(AppContext, "SetOnPushNotification", (page) => {
-				OrtcClientInitialized = true;
-				Xamarin.Forms.MessagingCenter.Send(this,"CheckPushNotification");
-			});
-				
-			CrossPushNotification.Initialize<CrossPushNotificationListener>();
-		}
-			
-		private bool IsPlayServicesAvailable ()
-		{
-			int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable (this);
+			int resultCode = GoogleApiAvailability.Instance.IsGooglePlayServicesAvailable (Application.Context);
 			if (resultCode != ConnectionResult.Success)
 			{
 				return false;
 			}
-			else
-			{
-				return true;
-			}
+            return true;
 		}
 	}
 
