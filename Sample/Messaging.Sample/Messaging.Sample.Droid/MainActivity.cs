@@ -8,32 +8,27 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Realtime.Messaging;
-using Realtime.Messaging.Droid;
 using Realtime.Messaging.Helpers;
+using Xamarin.Forms.Platform.Android;
 
 namespace Messaging.Sample.Droid
 {
     [Activity(Label = "Messaging.Sample", Icon = "@drawable/icon", Theme = "@android:style/Theme.Holo.Light",  
         MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
+	[Android.Runtime.Preserve(AllMembers = true)]
+    public class MainActivity : FormsAppCompatActivity
     {
+        public MainActivity()
+        {
+            
+        }
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
-        }
-    }
-
-    [Application]
-    public class MainApplication : Application
-    {
-        public override void OnCreate()
-        {
-            base.OnCreate();
-            
-            new PushNotificationAppStarter(this);
         }
     }
 }
