@@ -16,7 +16,7 @@ namespace Messaging.Sample.Droid
     [Activity(Label = "Messaging.Sample", Icon = "@drawable/icon", Theme = "@android:style/Theme.Holo.Light",  
         MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	[Android.Runtime.Preserve(AllMembers = true)]
-    public class MainActivity : FormsAppCompatActivity
+    public class MainActivity : FormsApplicationActivity
     {
         public MainActivity()
         {

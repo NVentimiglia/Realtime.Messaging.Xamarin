@@ -1,4 +1,6 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
+using Android.Runtime;
 using Realtime.Messaging.Droid;
 
 namespace Messaging.Sample.Droid
@@ -10,6 +12,11 @@ namespace Messaging.Sample.Droid
 		{
 			
 		}
+
+        public MainApplication(IntPtr handle, JniHandleOwnership transfer) : base(handle, transfer)
+        {
+            
+        }
 
         public override void OnCreate()
         {
