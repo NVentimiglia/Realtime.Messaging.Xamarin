@@ -8,6 +8,8 @@ Supports Android, iOS, and Windows Phone 8 Silverlight.
 
 ## Implementation
 
+> **Important !** Please make sure you install the sdk on **all** projects in the solution. You must install the nuget package on any pcl 'abstraction' projects as well as the platform specific projects.
+
 This repository includes both the SDK and a sample application using Xamarin Forms iOS, Android, and Windows Phone 8 Silverlight. The SDK includes a platform agnosted Realtime.Messaging project as well as a platform specific 'plugin'. The Android version uses OKHTTP.ws Binding Libraries. iOS uses SocketRocket Binding Libraries. The Windows Phone version uses Websockets Portable and rda.Sockets.
 
 https://github.com/mattleibow/square-bindings
